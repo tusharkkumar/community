@@ -12,7 +12,7 @@ def user_hub(username,id)
 
 
 
-Shoes.app(height:800,width:1300,resizable:false) do 
+Shoes.app(height:800,width:1300,resizable:false,) do 
 	image("images/w1.jpg",height:800,width:1300)
 	
 
@@ -24,7 +24,45 @@ Shoes.app(height:800,width:1300,resizable:false) do
 		caption("Welcome #{username}",left:550,underline:"double")
 	end
 
-	@complaint_boxbutton=button "complaint" do 
+#------------------------------------------COMPLAINT BOX OPTION------------------------------------------------
+
+	@complaint_boxbutton=button("complaint",top:0,left:1100) do 
+		@complaint_box.show
+	end
+
+	@complaint_box=stack(top:30,left:830,height:250,width:470,:hidden=>true) do
+		background black(0.6)
+
+		button("close",right:0,top:0,height:30,width:50) do 
+			@complaint_box.hide
+		end
+		caption("LIST COMPLAINT",stroke:white)
+
+		@complaint_submitstack=edit_box(top:30,height:190,width:470) do 
+
+		end
+		button("send",top:220) do 
+			if @complaint_submitstack.text==""
+				alert "please write something"
+			else
+				if connect
+					sql="update quara set complaints='#{@complaint_submitstack.text}' where id=#{id} "
+					res=@@con.query(sql)
+					alert "Complaint Send Successfully"
+					@complaint_submitstack.text=""
+				else
+					alert "Please Contact Software Developer"	
+				end	
+
+				
+			end
+
+		end 
+		button("clear",top:220,left:80) do 
+			@complaint_submitstack.text=""			
+
+		end 
+
 
 	end
 
@@ -49,7 +87,7 @@ Shoes.app(height:800,width:1300,resizable:false) do
 		end
 	end
 
-#------------------------------------------UPDATE OPTION------------------------------------------------
+#------------------------------------------UPDATE PICTUREOPTION------------------------------------------------
 
 	stack(top:200,left:0) do 
 		# background yellow
@@ -321,10 +359,16 @@ end
 					end
 					@btn5_submit=button("Submit",left:0,top:165) do
 						if connect 
-							sql="update person_details set skills='#{@l1.text},#{@l2.text},#{@l3.text},#{@l4.text},#{@l5.text}' where id=#{id} "
-							res=@@con.query(sql)
-							alert "skills added"
-							@@con=nil
+							if @l1.text=="" or @l2.text=="" or @l3.text=="" or @l4.text=="" or @l5.text=="" 
+								alert "please fill atleast 5 technical skills "
+							else
+								sql="update person_details set skills='#{@l1.text},#{@l2.text},#{@l3.text},#{@l4.text},#{@l5.text}' where id=#{id} "
+								res=@@con.query(sql)
+								alert "skills added"
+								@@con=nil
+									
+							end
+							
 						end
 					end
 				end

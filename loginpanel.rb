@@ -29,7 +29,7 @@ end
 
 #-----------------------------------------------MAINPAGE----------------------------------------##
 
-	Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,resizable:false) do 
+	Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,resizable:false,:scroll=>false) do 
 		
 		image"images/welcome3.jpg",height:800,width:1300,top:00
 		timer(1) do 
@@ -86,7 +86,23 @@ def start_login
 					# background "#4169e1".."#191970"
 					# title("LOGIN HERE",align:"center",font:"Algerian",stroke:"#00ffff",underline:"double",stroke:black)
 					title("LOGIN PANEL",width:400,left:490,top:0,stroke:black,font:"Algerian",underline:"double")
+
+
+  #--------------------------------------------ADMIN BUTTON---------------------------------------#
+
+
+  					@admin_button=button("Admin Panel",right:0,top:0)do
+  						admin_panel 
+  						self.close
+
+
+
+
+					end
+
+
 #-----------------------------------------------SHARE IDEAS BUTTON----------------------------------------##
+					
 					button "Future Ideas" do 
 						if connect
 							@user_array=[]
@@ -181,16 +197,19 @@ def start_login
 						caption("Password",height:30,width:120,stroke:white,font:"Algerian")
 						para " "
 						@password=edit_line :secret=>true}
+
+
 						
 		#--------------------------------------LOGIN FUNCTION----------------------------------------------------------
 						flow(left:0,top:100) do 
 							button("LOGIN",left:210) do
 								if connect
-									
+								
 									if @username.text=="" or @password.text==""
 										alert "Check all the fields ...it must be filled"
+									else
 
-										sql="select id,username from community_details where username= '#{@username.text}' and password='#{@password.text}'"
+										sql="select id,username from community_details where username= '#{@username.text.downcase}' and password='#{@password.text.downcase}'"
 										result=@@con.query(sql)
 										result.each do |user|
 											@id=user[:id]
@@ -199,11 +218,7 @@ def start_login
 
 
 										res=result.count
-										if res > 0
-
-
-	
-												
+										if res >0
 											result.each do |user|	
 
 												@@id=user[:id]
@@ -381,7 +396,7 @@ end
 
 #------------------------------------------AMIMATION AREA------------------------------------------------
 
-# def ball_animation
+# def ball_animationP
 
 # 	fill "#FFDAB9"
 #   @gravity = 0.05
@@ -401,4 +416,137 @@ end
 		
 # end
 
+#---------------------------------------------ADMIN PANEL -------------------------------#
 
+
+def admin_panel
+
+	@admin_username=ask("Enter Admin Username:",left:800,top:0)
+	@admin_password=ask("Enter Admin Password:",left:800,top:0)
+	
+	if @admin_username=="tushar" or @admin_password=="0786"
+		alert "welcome"
+
+		window(title:"ADMIN PANEL",height:800,width:1300,resizable:false) do 
+				image"images/welcome3.jpg",height:800,width:1300,top:00
+				title("ADMIN PANEL",stroke:black,font:"Algerian",underline:"double",left:500,top:0) 
+				timer(1) do 
+				image "images/logo.png",height:60,width:200,top:00,left:800
+				end
+
+				@options=button("User Option",left:0,top:200) do 
+					@adminprivilages.toggle
+
+
+				end
+
+				@adminprivilages=flow(left:0,top:240,:hidden=>true,height:100,width:1300) do 
+ 
+					@insert=button("insert",top:5,left:20) do 
+						@stack_insert.toggle
+
+					end
+
+					@delete=button("delete",top:5,left:300) do 
+						@stack_delete.toggle
+
+					end
+					
+					@update=button("update",top:5,left:600) do 
+						@stack_update.toggle
+
+					end
+					
+					@misleneous=button("Misleneous",top:5,left:900) do 
+						@stack_mislenious.toggle
+
+					end
+
+				end
+
+				@stack_insert=stack(height:300,width:200,:hidden=>true,top:270,left:20) do
+					para ""
+					
+					@user_insert=button("New Owner") do 
+					
+
+					end
+					para ""
+
+					@Member_insert=button("New Member") do 
+
+					end
+					para ""
+
+					
+					@details_insert=button("Important detail") do 
+
+					end
+					
+
+				end
+					
+				@stack_delete=stack(height:300,width:200,:hidden=>true,top:270,left:300) do
+					para ""
+					
+					@user_delete=button(" Owner") do 
+					
+
+					end
+					para ""
+
+
+					@Member_delete=button(" Member") do 
+
+					end
+					para ""
+
+					
+					@details_delete=button("details") do 
+
+					end
+					
+					
+				end
+				@stack_update=stack(height:300,width:200,:hidden=>true,top:270,left:600) do
+					para ""
+					
+					@user_update=button("Owner Details") do 
+					
+
+					end
+					para ""
+
+					@Member_update=button("Member Details") do 
+
+					end
+					para ""
+					
+					@details_update=button("Group details") do 
+
+					end
+										
+					
+				end
+				@stack_mislenious=stack(height:300,width:200,:hidden=>true,top:270,left:900) do
+					background red
+
+
+				end
+
+
+
+
+
+
+
+			end
+	else
+
+		alert "You are not a Authorise Person.."
+
+
+
+	end
+	
+end

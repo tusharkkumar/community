@@ -1,7 +1,3 @@
-# #  $path5=File.join(File.dirname(__FILE__),"../")
-# # require $path5 + "userwindow2.rb"
-# # # call
-
 
 
 
