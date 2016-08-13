@@ -6,7 +6,7 @@ require "loginpanel.rb"
 require $path_forw + "person_details.rb"
 require $path_forw + "quara.rb"
 
-
+#------------------------------------------PROFILE PAGE OF USER------------------------------------------------
 
 def user_hub(username,id)
 
@@ -18,11 +18,17 @@ Shoes.app(height:800,width:1300,resizable:false) do
 
 
 	stack(left:0,height:50,width:1300,top:0)do 
-	# background yellow
+
 		@id_user=id
 		@user_name=username
 		caption("Welcome #{username}",left:550,underline:"double")
 	end
+
+	@complaint_boxbutton=button "complaint" do 
+
+	end
+
+#------------------------------------------LOGOUT OPTION------------------------------------------------
 
 
 	stack(left:1220,top:0) do 
@@ -43,7 +49,7 @@ Shoes.app(height:800,width:1300,resizable:false) do
 		end
 	end
 
-
+#------------------------------------------UPDATE OPTION------------------------------------------------
 
 	stack(top:200,left:0) do 
 		# background yellow
@@ -51,7 +57,7 @@ Shoes.app(height:800,width:1300,resizable:false) do
 			@profile_picture=ask_open_file
 		end
 	end
-
+#------------------------------------------OUES AND ANSWERS OPTION------------------------------------------------
 
 	stack(left:830,top:350,height:400,width:470) do 
 		# background green
@@ -81,8 +87,9 @@ Shoes.app(height:800,width:1300,resizable:false) do
 			end
 		end
 	end
+#-----------------------------------------PROFILE PICTURE STACK ------------------------------------------------
 
-	stack(top:50,height:180,width:150,left:0) do 
+	@image_stack=stack(top:50,height:180,width:150,left:0) do 
 		background black 
 	end
 	
@@ -100,7 +107,7 @@ Shoes.app(height:800,width:1300,resizable:false) do
 	end
 
 
-
+#------------------------------------------USER RELATED FUNCTIONS------------------------------------------------
 
 
 	stack(top:500,width:150,left:0) do 
@@ -113,6 +120,7 @@ Shoes.app(height:800,width:1300,resizable:false) do
 			member_search
 		end
 	end
+#------------------------------------------FILL PERSONAL DETAILS OPTION------------------------------------------------
 
 	@detail_show=stack(left:170,top:50,width:260,height:210) do
 		stack do 
@@ -122,12 +130,14 @@ Shoes.app(height:800,width:1300,resizable:false) do
 			@detail_display.hide
 			@hub_details.hide
 			end
+#------------------------------------------SHOW YOU DETAILS  OPTION------------------------------------------------
 			button "YOUR DETAILS" do 
 				show_details(@id_user)
 				@detail_display.show
 				@detail_stack.hide
 				@hub_details.hide
 			end
+#------------------------------------------GROUP RELATED OPTION------------------------------------------------
 			button "HUB DETAILS" do
 				hub_details(@id_user)
 				@hub_details.show
@@ -137,6 +147,8 @@ Shoes.app(height:800,width:1300,resizable:false) do
 			
 		end
 	end
+
+#------------------------------------------SHARE IDEAS FUNCTIONING OPTION------------------------------------------------
 
 	stack(height:300,width:600,left:190,top:400) do 
 		caption("Share your ideas:",stroke:white)
@@ -169,6 +181,9 @@ Shoes.app(height:800,width:1300,resizable:false) do
 	end
 end
 end
+
+#------------------------------------------MY PROJECTS FUNCTIONING OPTION------------------------------------------------
+
 	def my_projects(id)
 		window(height:500,width:800,resizable:false) do 
 			# background white
@@ -223,18 +238,10 @@ end
 
 						if connect
 
-
-							# result=selectall
-							# result.each do |user|
-							# 	@userId=user[:id]
-							# end
-
 							result=updateworking(id,@workproject_name.text,@workproject_lang.text,@workproject_members.text)
 							alert "data gets Saved..."
 							@@con=nil
 						end
-
-
 
 						@working_prodetail.hide
 					end
@@ -273,7 +280,7 @@ end
 		end
 	end
 
-
+#------------------------------------------MY SKILLS FUNCTIONING OPTION------------------------------------------------
 
 	def my_skills(id)
 		window(height:500,width:800,resizable:false) do
@@ -313,36 +320,19 @@ end
 					@l5=edit_line
 					end
 					@btn5_submit=button("Submit",left:0,top:165) do
-					
-
-
-
-
 						if connect 
-							# @t.show
-							# @s=edit_box("#{@l1.text},#{@l2.text},#{@l3.text},#{@l4.text},#{l5.text}")
-							
-							# alert id
 							sql="update person_details set skills='#{@l1.text},#{@l2.text},#{@l3.text},#{@l4.text},#{@l5.text}' where id=#{id} "
 							res=@@con.query(sql)
 							alert "skills added"
-
-
-						 
-
-
 							@@con=nil
 						end
-
-
-						
-
 					end
 				end
 			end 
 		end
 	end
 
+#------------------------------------------MEMBER LIST FUNCTIONING  OPTION------------------------------------------------
 
 	def member_list
 		window(height:500,width:800,resizable:false) do 

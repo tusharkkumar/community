@@ -1,8 +1,10 @@
 $path=File.join(File.dirname(__FILE__),"lib","")
 $path_back=File.join(File.dirname(__FILE__),"../")
 require $path + "person_details.rb"
-# require $path + "validation.rb"
 
+
+
+#------------------------------------------PERSONAL DETAILS WORKING ------------------------------------------------
 
 
 def personal_details(id)
@@ -104,35 +106,16 @@ def personal_details(id)
 
 									end
 
-
-									
-									
-
-								end
-							# end
+								end							
 
 						end
 
 				end
 			end
-
-	
-
-
-
-
-
-
-
-
-
-
 	end
-	
-
 end
 
-
+#------------------------------------------SHOW DETAIL FUNCTIONING------------------------------------------------
 
 def show_details(id)
 
@@ -177,15 +160,11 @@ def show_details(id)
 				@@con=nil
 	
 			end
-
-		# end
-	
-
-	
-	
-
 	end
 end
+
+
+#------------------------------------------HUB DETAILS FUNCTIONING OPTION------------------------------------------------
 
 
 def hub_details(id)
@@ -195,11 +174,7 @@ def hub_details(id)
 		background gray(0.6)
 		button("X",top:0,left:380,height:20,width:20) do
 			@hub_details.hide
-		end
-	
-
-
-
+		end	
 
 		para("Close",left:335,top:0,stroke:red)
 		para ""
@@ -222,21 +197,8 @@ def hub_details(id)
 			@result_timing.each do |user|
 				# @name_community=user[:name_community]
 				@is_created=user[:is_created]
-				@is_modified=user[:is_modified]
-				
-
-
-
-
-
+				@is_modified=user[:is_modified]		
 			end
-
-				
-			
-
-
-			
-	
 
 			stack do 
 
@@ -266,30 +228,13 @@ def hub_details(id)
 				flow do 
 					caption("Live Projects:")
 					caption @liveproject
-
-					
-				
 				end
 				para ""
 			end
-
-
-			
-
-
 			@@con=nil
 		else
-
 			alert "connection not build"
 			@@con=nil
-
-
 		end
-
-	
-		
-
 	end
-
-
 end

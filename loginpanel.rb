@@ -6,7 +6,7 @@ require $path + "comunitydetails.rb"
 
 require "userwindow1.rb"
 
-
+#-----------------------------------------------SETUP----------------------------------------##
 
 Shoes.setup do 
 gem "mysql2"
@@ -18,7 +18,7 @@ end
 	require "mysql2"
 	require "prawn"
 
-
+#-----------------------------------------------CONNECT----------------------------------------##
 
 	def connect
 		@@con=Mysql2::Client.new(:host=>"localhost",:database=>"communitybase",:username=>"root",:password=>"")
@@ -27,7 +27,7 @@ end
 	end
 
 
-
+#-----------------------------------------------MAINPAGE----------------------------------------##
 
 	Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,resizable:false) do 
 		
@@ -37,8 +37,8 @@ end
 		end
 		
 		image("images/title.png",left:400,top:0,height:80,width:400)
-		
-
+	
+#-----------------------------------------------DOWNIMAGES----------------------------------------##
 		stack(top:700,left:0) do 
 
 			flow do 
@@ -73,7 +73,7 @@ end
 
 	end
 
-	
+#-----------------------------------------------LOGINFUNCTION----------------------------------------##
 
 def start_login
 
@@ -86,7 +86,7 @@ def start_login
 					# background "#4169e1".."#191970"
 					# title("LOGIN HERE",align:"center",font:"Algerian",stroke:"#00ffff",underline:"double",stroke:black)
 					title("LOGIN PANEL",width:400,left:490,top:0,stroke:black,font:"Algerian",underline:"double")
-#-----------------------------------------------share ideas button----------------------------------------##
+#-----------------------------------------------SHARE IDEAS BUTTON----------------------------------------##
 					button "Future Ideas" do 
 						if connect
 							@user_array=[]
@@ -105,6 +105,7 @@ def start_login
 						
 							@@con=nil	
 						end
+#-----------------------------------------------SHAREIDEAS----------------------------------------##
 
 						@login_ideas=button("x",left:480,top:8,height:20,width:20,:hidden=>true ) do 
 							@shareideasstack.hide
@@ -168,7 +169,7 @@ def start_login
 
 
 
-		#------------------------------------------options------------------------------------------------
+		#------------------------------------------LOGINPANELOPTINS------------------------------------------------
 					stack(top:300,left:400,height:200,width:400)do
 						background black(0.6)
 						flow(top:10,left:100){
@@ -181,21 +182,21 @@ def start_login
 						para " "
 						@password=edit_line :secret=>true}
 						
-		#--------------------------------------buttons----------------------------------------------------------
+		#--------------------------------------LOGIN FUNCTION----------------------------------------------------------
 						flow(left:0,top:100) do 
 							button("LOGIN",left:210) do
 								if connect
 									
 									if @username.text=="" or @password.text==""
 										alert "Check all the fields ...it must be filled"
-									else
-										sql="select id,username from community_details where username= '#{@username.text.downcase}' and password='#{@password.text.downcase}'"
+
+										sql="select id,username from community_details where username= '#{@username.text}' and password='#{@password.text}'"
 										result=@@con.query(sql)
 										result.each do |user|
 											@id=user[:id]
 
 										end
-										# @@store=result[:username]
+
 
 										res=result.count
 										if res > 0
@@ -208,7 +209,7 @@ def start_login
 												@@id=user[:id]
 												@username=user[:username]
 											end
-
+#-----------------------------------------------WELCOME--------------------------------------------##
 											alert "Welcome To Your Fusion Hub"
 											user_hub(@username,@id)
 											self.close
@@ -244,7 +245,7 @@ def start_login
 end
 
 
-	
+#------------------------------------------SIGNUP PANEL------------------------------------------------	
 
 def start_signup
 	window(title:"COMMUNITY SIGNUP",height:800,width:1300,resizable:false)do 
@@ -256,7 +257,7 @@ def start_signup
 	
 			title("SIGNUP HERE",align:"center",font:"Algerian",stroke:"#00ffff",underline:"double",stroke:black)
 
-#------------------------------------------options------------------------------------------------
+#------------------------------------------SIGNUPDETAILS------------------------------------------------
 		stack(top:250,left:400,height:400,width:500)do
 			background black(0.6)
 			flow(top:10,left:100){
@@ -322,6 +323,7 @@ def start_signup
 
 
 end
+#------------------------------------------SIGNUP VALIDATION------------------------------------------------
 
 def signup_validation
 	if connect
@@ -360,6 +362,7 @@ def signup_validation
 	
 end
 
+#------------------------------------------SIGNUP INSERT DETAILS------------------------------------------------
 
 def insert_details
 	# alert "working fine"
@@ -376,7 +379,7 @@ def insert_details
 
 end
 
-
+#------------------------------------------AMIMATION AREA------------------------------------------------
 
 # def ball_animation
 
