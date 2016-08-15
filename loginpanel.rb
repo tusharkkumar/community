@@ -3,7 +3,7 @@
 $path=File.join(File.dirname(__FILE__),"lib","")
 require $path + "person_details.rb"
 require $path + "comunitydetails.rb"
-
+require $path + "adminpanel.rb"
 require "userwindow1.rb"
 
 #-----------------------------------------------SETUP----------------------------------------##
@@ -444,12 +444,10 @@ def admin_panel
  
 					@insert=button("insert",top:5,left:20) do 
 						@stack_insert.toggle
-
 					end
 
 					@delete=button("delete",top:5,left:300) do 
 						@stack_delete.toggle
-
 					end
 					
 					@update=button("update",top:5,left:600) do 
@@ -468,7 +466,7 @@ def admin_panel
 					para ""
 					
 					@user_insert=button("New Owner") do 
-					
+						insert_newuser	
 
 					end
 					para ""
@@ -544,8 +542,6 @@ def admin_panel
 	else
 
 		alert "You are not a Authorise Person.."
-
-
 
 	end
 	

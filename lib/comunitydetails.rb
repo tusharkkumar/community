@@ -1,6 +1,5 @@
 
 
-
 def insert(username,password,email,name_community,is_admin,is_member)
 	# alert "working fine"
 	sql="insert into community_details(username,password,email,name_community,is_admin,is_member,is_updated,is_created,is_modified) values('#{username}','#{password}','#{email}','#{name_community}' ,#{is_admin},#{is_member},NOW(),NOW(),NOW()) "

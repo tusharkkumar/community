@@ -26,7 +26,7 @@ Shoes.app(height:800,width:1300,resizable:false,) do
 
 #------------------------------------------COMPLAINT BOX OPTION------------------------------------------------
 
-	@complaint_boxbutton=button("complaint",top:0,left:1100) do 
+	@complaint_boxbutton=button("complaint",top:0,right:78) do 
 		@complaint_box.show
 	end
 
@@ -65,6 +65,36 @@ Shoes.app(height:800,width:1300,resizable:false,) do
 
 
 	end
+#------------------------------------------PASSWORD CHANGE OPTION------------------------------------------------
+	@logout_button=button("Change Password",top:0,right:180) do
+						# alert @id_user
+						@enterthenewpassword=ask("Enter The New Password:")
+						@confirmthepassword=ask("Confirmed The Password")
+						# if @enterthenewpassword!="" or @confirmthepassword!=""
+							# alert @enterthenewpassword
+							
+							if !@enterthenewpassword.nil? or !@confirmthepassword.nil?
+								if connect
+									 alert  sql="update community_details set password='#{@enterthenewpassword}' where id=#{@id_user}"
+									 res=@@con.query(sql)
+									 alert "password Successfully Changed Changes apply after login"
+
+								end
+
+							else 
+								alert "Password does not match try again try "
+									
+							end
+
+
+						# else
+
+						# 	alert "field should not be empty "
+						# end
+
+					end	
+
+
 
 #------------------------------------------LOGOUT OPTION------------------------------------------------
 
@@ -191,7 +221,8 @@ Shoes.app(height:800,width:1300,resizable:false,) do
 	stack(height:300,width:600,left:190,top:400) do 
 		caption("Share your ideas:",stroke:white)
 		@share_ideas=edit_box(height:200,width:600,left:0,top:30)
-		button("Share",left:0,top:230) do 
+		flow do 
+			button("Share",left:0,top:193) do 
 
 			if connect
 
@@ -214,8 +245,16 @@ Shoes.app(height:800,width:1300,resizable:false,) do
 						@share_ideas.text=""
 						end
 					end
+				end
 			end
+
+			button("clear",top:193,left:100) do 
+				@share_ideas.text=""
+
+			end
+
 		end
+
 	end
 end
 end
@@ -226,7 +265,7 @@ end
 		window(height:500,width:800,resizable:false) do 
 			# background white
 			@btn_stack=stack(top:0,left:0,height:100,width:800)do 	
-			background pink
+			# background pink
 				caption("Click Add button to add a project >>",left:10,top:70)
 				button("ADD PROJECT",left:350,top:70) do 
 					
@@ -275,13 +314,19 @@ end
 					button("Submit",left:165,top:130) do 
 
 						if connect
+							if @workproject_name.text=="" or @workproject_lang.text=="" or @workproject_members.text==""
+								alert "All Fields Must Be Filled"
 
-							result=updateworking(id,@workproject_name.text,@workproject_lang.text,@workproject_members.text)
-							alert "data gets Saved..."
-							@@con=nil
+							else
+
+								result=updateworking(id,@workproject_name.text,@workproject_lang.text,@workproject_members.text)
+								alert "data gets Saved..."
+								@@con=nil
+								@working_prodetail.hide
+							end
 						end
 
-						@working_prodetail.hide
+						
 					end
 				end
 			end
@@ -306,12 +351,17 @@ end
 					
 					button("Submit",left:165,top:130) do 
 						if connect
+							if @liveproject_name.text=="" or @liveproject_lang.text=="" or @liveproject_members.text==""
+								alert "All Fields Must Be Filled"
+							else
 
 							result=updatelive(id,@liveproject_name.text,@liveproject_lang.text,@liveproject_members.text)
 							alert "data Saved.."
 							@@con=nil
+							@live_prodetail.hide
+							end
 						end
-						@live_prodetail.hide
+						
 					end
 				end
 			end

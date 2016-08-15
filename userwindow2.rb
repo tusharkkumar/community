@@ -70,20 +70,27 @@ def personal_details(id)
 							
 								if @id_get==@id_user
 									if connect
-										# if validationofuserprofiledetails
+
 											if @name.text=="" or @address.text=="" or @interests.text=="" or @requirement.text=="" or @contact_no==""
 												alert "Fill all the fields"
-											elsif @address.text.to_s.size < 10
+											elsif @address.text.to_s.size<=10
 												alert "address must contain the proper desciption"
 												
 
-											elsif @contact_no.text.to_s.size <10 
+											elsif @contact_no.text.to_s.size<=10 
 												alert "contact must be of 10 digit"
 											else
 											updatedata(@id_user,@name.text,@qualification.text,@interests.text,@contact_no.text,@experiance.text,@requirement.text,@address.text)
 											alert "details Successufully Updated"
 											end
-										# end
+										@qualification.text=""
+										@interests.text=""
+										@contact_no.text=""
+										@experiance.text=""
+										@requirement.text=""
+										@address.text=""
+										@detail_stack=""
+
 											@@con=nil
 									end
 
@@ -238,3 +245,5 @@ def hub_details(id)
 		end
 	end
 end
+
+
