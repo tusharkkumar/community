@@ -37,7 +37,7 @@ end
 		end
 		
 		image("images/title.png",left:400,top:0,height:80,width:400)
-	
+		
 #-----------------------------------------------DOWNIMAGES----------------------------------------##
 		stack(top:700,left:0) do 
 
@@ -67,6 +67,8 @@ end
 				end
 
 			end
+
+
 
 
 		end

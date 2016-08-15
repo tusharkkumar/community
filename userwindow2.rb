@@ -167,6 +167,36 @@ def show_details(id)
 				@@con=nil
 	
 			end
+			user_name=@userName
+			user_address=@userAddress
+			user_contact=@userContactno
+			user_quali=@userQualification
+			user_exp=@userExperiance
+			user_interest=@userInterests
+			user_req=@userRequirement
+#----------------------------------------------PDF BUTTTON ---------------------------#
+		@pdfgenerate=button("Generate Pdf",top:0,right:100) do 
+				Prawn::Document.generate("#{user_name}.pdf") do 
+					text "USERNAME :#{user_name} "
+					text "ADDRESS :#{user_address}"
+					text "CONTACT NO :#{user_contact}"
+					text "QUALIFICATION :#{user_quali}"
+					text "EXPERIANCE: #{user_exp}"
+					text "INTERESTED : #{user_interest}"
+					text "REQUIREMENTS :#{user_req}"
+					# text user_address
+					# text user_contact
+					
+					# text user_quali
+					# text user_exp
+					# text user_interest
+					# text user_req
+				end
+				alert "pdf generated"
+
+			end
+	
+
 	end
 end
 

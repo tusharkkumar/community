@@ -82,7 +82,7 @@ Shoes.app(height:800,width:1300,resizable:false,) do
 								end
 
 							else 
-								alert "Password does not match try again try "
+								alert "password should not be empty "
 									
 							end
 
