@@ -29,14 +29,11 @@ end
 		return true if @@con
 	end
 
-	def addmethod
-		
-	end
 
 
 #-----------------------------------------------MAINPAGE----------------------------------------##
 
-	Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,resizable:false,:scroll=>false) do 
+Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,resizable:false,:scroll=>false) do 
 		
 		image"images/welcome3.jpg",height:800,width:1300,top:00
 		timer(1) do 
@@ -77,10 +74,9 @@ end
 
 
 
-
 		end
+end
 
-	end
 
 #-----------------------------------------------LOGINFUNCTION----------------------------------------##
 
@@ -97,20 +93,20 @@ def start_login
 					title("LOGIN PANEL",width:400,left:490,top:0,stroke:black,font:"Algerian",underline:"double")
 
 
-  #--------------------------------------------ADMIN BUTTON---------------------------------------#
+#   #--------------------------------------------ADMIN BUTTON---------------------------------------#
 
 
-  					@admin_button=button("Admin Panel",right:0,top:0)do
+  				@admin_button=button("Admin Panel",right:0,top:0)do
   						admin_panel 
   						self.close
 
 
 
 
-					end
+				end
 
 
-#-----------------------------------------------SHARE IDEAS BUTTON----------------------------------------##
+# # #-----------------------------------------------SHARE IDEAS BUTTON----------------------------------------##
 					
 					button "Future Ideas" do 
 						if connect
@@ -130,7 +126,8 @@ def start_login
 						
 							@@con=nil	
 						end
-#-----------------------------------------------SHAREIDEAS----------------------------------------##
+
+# #-----------------------------------------------SHAREIDEAS----------------------------------------##
 
 						@login_ideas=button("x",left:480,top:8,height:20,width:20,:hidden=>true ) do 
 							@shareideasstack.hide
@@ -162,8 +159,6 @@ def start_login
 										
 									end
 								end
-
-							
 							end
 							para ""
 							stack(top:0,left:120) do 
@@ -182,39 +177,41 @@ def start_login
 
 								end
 							end
+						end	
+					end	
+# 	
+
+
+					
+
+				 
 
 
 
-
-
-
-						end
-
-					end 
-
-
-
-		#------------------------------------------LOGINPANELOPTINS------------------------------------------------
+# 		#------------------------------------------LOGINPANELOPTINS------------------------------------------------
 					stack(top:300,left:400,height:200,width:400)do
 						background black(0.6)
-<<<<<<< HEAD
-						flow(top:10,left:95){
-=======
-						flow(top:10,left:100){
->>>>>>> e050be83246d9b24c692e73f7f69e41d08c2cee9
-						caption("Username",height:30,width:120,font:"Algerian",stroke:white)
-						# para("username",font:"Algerian",stroke:white,size:15)
-						para " "
-						@username=edit_line}
-						flow(top:50,left:100){
-						caption("Password",height:30,width:120,stroke:white,font:"Algerian")
-						para " "
-						@password=edit_line :secret=>true}
+
+						# flow(top:10,left:95) do
+
+							flow(top:10,left:95) do
+
+								caption("Username",height:30,width:120,font:"Algerian",stroke:white)
+								# para("username",font:"Algerian",stroke:white,size:15)
+								para " "
+								@username=edit_line 
+							end
+
+							flow(top:50,left:100) do
+								caption("Password",height:30,width:120,stroke:white,font:"Algerian")
+								para " "
+								@password=edit_line :secret=>true
+							end
 
 
-						
-		#--------------------------------------LOGIN FUNCTION----------------------------------------------------------
-						flow(left:0,top:100) do 
+					
+# # 		#--------------------------------------LOGIN FUNCTION----------------------------------------------------------
+							flow(left:0,top:100) do 
 							button("LOGIN",left:210) do
 								if connect
 								
@@ -262,14 +259,13 @@ def start_login
 								self.close
 
 							end
-						end
-					end	
+						# end
+
+					end		
+					end
+	end
+
 		
-
-
-		end
-	
-
 end
 
 
@@ -390,7 +386,7 @@ def signup_validation
 	
 end
 
-#------------------------------------------SIGNUP INSERT DETAILS------------------------------------------------
+# #------------------------------------------SIGNUP INSERT DETAILS------------------------------------------------
 
 def insert_details
 	# alert "working fine"
@@ -407,29 +403,29 @@ def insert_details
 
 end
 
-#------------------------------------------AMIMATION AREA------------------------------------------------
+# #------------------------------------------AMIMATION AREA------------------------------------------------
 
-# def ball_animationP
+# # def ball_animationP
 
-# 	fill "#FFDAB9"
-#   @gravity = 0.05
-#   @velocity =10.0
-#   @ball_radius = 60
-#   @ball = oval(top: 10, 
-#               left: width / 4 - @ball_radius, 
-#               radius: @ball_radius)
-#     animate(60) do
-#       @velocity += @gravity
-#       @ball.top += @velocity 
-#       if @ball.top > height - @ball_radius * 2
-#         @ball.top = height - @ball_radius * 2
-#         @velocity = @velocity * -0.8
-#       end
-#     end
+# # 	fill "#FFDAB9"
+# #   @gravity = 0.05
+# #   @velocity =10.0
+# #   @ball_radius = 60
+# #   @ball = oval(top: 10, 
+# #               left: width / 4 - @ball_radius, 
+# #               radius: @ball_radius)
+# #     animate(60) do
+# #       @velocity += @gravity
+# #       @ball.top += @velocity 
+# #       if @ball.top > height - @ball_radius * 2
+# #         @ball.top = height - @ball_radius * 2
+# #         @velocity = @velocity * -0.8
+# #       end
+# #     end
 		
-# end
+# # end
 
-#---------------------------------------------ADMIN PANEL -------------------------------#
+# #---------------------------------------------ADMIN PANEL -------------------------------#
 
 
 def admin_panel
@@ -545,17 +541,17 @@ def admin_panel
 
 				end
 
-
-
-
-
-
-
 			end
+
+
+
+		
 	else
 
 		alert "You are not a Authorise Person.."
 
 	end
+
 	
 end
+		
