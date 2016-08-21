@@ -74,18 +74,32 @@ Shoes.app(height:800,width:1300,resizable:false,) do
 							# alert @enterthenewpassword
 							
 							if !@enterthenewpassword.nil? or !@confirmthepassword.nil?
-								if connect
-									 sql="update community_details set password='#{@enterthenewpassword}' where id=#{@id_user}"
+								if @enterthenewpassword==@confirmthepassword
+									if  @enterthenewpassword.to_s.size > 6
+										if connect
+										 sql="update community_details set password='#{@enterthenewpassword}' where id=#{@id_user}"
 
-									 alert  sql="update community_details set password='#{@enterthenewpassword}' where id=#{@id_user}"
+										 sql="update community_details set password='#{@enterthenewpassword}' where id=#{@id_user}"
 
-									 res=@@con.query(sql)
-									 alert "password Successfully Changed Changes apply after login"
+										 res=@@con.query(sql)
+										 alert "password Changed!!! Changes will be applied after login."
 
+										end
+
+									else
+
+										alert "password should be atleast 6 digits"
+										
+									end
+
+								else
+
+									alert "password does not match"
+									
 								end
 
 							else 
-								alert "password should not be empty "
+								alert "password should not be empty or not filled correctly"
 									
 							end
 
@@ -111,7 +125,9 @@ Shoes.app(height:800,width:1300,resizable:false,) do
 					@@con.query(sql)
 					alert "logout successful"
 					# alert "last seen saved"
+					@@con=""
 				end
+
 				start_login
 				self.close
 

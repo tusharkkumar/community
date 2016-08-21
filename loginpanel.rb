@@ -82,7 +82,7 @@ end
 
 def start_login
 
-		window(title:"COMMUNITY LOGIN",height:800,width:1300,resizable:false) do 
+		Shoes.app(title:"COMMUNITY LOGIN",height:800,width:1300,resizable:false) do 
 
 					image "images/w1.jpg",height:800,width:1300,top:00
 					timer(1) do 
@@ -272,7 +272,7 @@ end
 #------------------------------------------SIGNUP PANEL------------------------------------------------	
 
 def start_signup
-	window(title:"COMMUNITY SIGNUP",height:800,width:1300,resizable:false)do 
+	Shoes.app(title:"COMMUNITY SIGNUP",height:800,width:1300,resizable:false)do 
 		image "images/w1.jpg",height:800,width:1300,top:00
 		timer(1) do 
 		image "images/logo.png",height:60,width:200,top:00,left:800
@@ -284,25 +284,25 @@ def start_signup
 #------------------------------------------SIGNUPDETAILS------------------------------------------------
 		stack(top:250,left:400,height:400,width:500)do
 			background black(0.6)
-			flow(top:10,left:100){
+			flow(top:10,left:114){
 			para("username",font:"Algerian",stroke:white,size:15)
 			para " "
 			@username_s=edit_line}
 
 			para " "
 
-			flow(top:50,left:100){
+			flow(top:50,left:120){
 			para("password",font:"Algerian",stroke:white,size:15)
 			para " "
 			@password_s=edit_line :secret=>true}
 			para " "
 			
 
-			flow(left:15,top:90){para("confirm password",font:"Algerian",stroke:white,size:15)
+			flow(left:38,top:90){para("confirm password",font:"Algerian",stroke:white,size:15)
 			para " "
 			@confirm_password_s=edit_line :secret=>true}
 
-			flow(left:145,top:130){para("email",font:"Algerian",stroke:white,size:15)
+			flow(left:157,top:130){para("email",font:"Algerian",stroke:white,size:15)
 			para " "	
 			@email=edit_line}
 
@@ -326,7 +326,7 @@ def start_signup
 			para("Member",font:"Algerian",stroke:white,size:15)
 			@is_member.checked=false}
 
-				flow(left:10,top:250) do 
+				flow(left:20,top:250) do 
 				button("Sign Up",left:200,align:"center") do
 					signup_validation
 
