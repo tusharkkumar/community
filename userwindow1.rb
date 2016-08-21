@@ -75,7 +75,11 @@ Shoes.app(height:800,width:1300,resizable:false,) do
 							
 							if !@enterthenewpassword.nil? or !@confirmthepassword.nil?
 								if connect
+<<<<<<< HEAD
 									 sql="update community_details set password='#{@enterthenewpassword}' where id=#{@id_user}"
+=======
+									 alert  sql="update community_details set password='#{@enterthenewpassword}' where id=#{@id_user}"
+>>>>>>> e050be83246d9b24c692e73f7f69e41d08c2cee9
 									 res=@@con.query(sql)
 									 alert "password Successfully Changed Changes apply after login"
 

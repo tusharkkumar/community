@@ -8,10 +8,13 @@ require "userwindow1.rb"
 
 #-----------------------------------------------SETUP----------------------------------------##
 
+
+
 Shoes.setup do 
 gem "mysql2"
 gem "prawn"
 end
+
 
 
 
@@ -24,6 +27,10 @@ end
 		@@con=Mysql2::Client.new(:host=>"localhost",:database=>"communitybase",:username=>"root",:password=>"")
 		@@con.query_options.merge!(:symbolize_keys=>true)
 		return true if @@con
+	end
+
+	def addmethod
+		
 	end
 
 
@@ -190,7 +197,11 @@ def start_login
 		#------------------------------------------LOGINPANELOPTINS------------------------------------------------
 					stack(top:300,left:400,height:200,width:400)do
 						background black(0.6)
+<<<<<<< HEAD
 						flow(top:10,left:95){
+=======
+						flow(top:10,left:100){
+>>>>>>> e050be83246d9b24c692e73f7f69e41d08c2cee9
 						caption("Username",height:30,width:120,font:"Algerian",stroke:white)
 						# para("username",font:"Algerian",stroke:white,size:15)
 						para " "
