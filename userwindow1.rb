@@ -5,14 +5,16 @@ require $path + "userwindow2.rb"
 require "loginpanel.rb"
 require $path_forw + "person_details.rb"
 require $path_forw + "quara.rb"
+require $path_forw + "features.rb"
 
 #------------------------------------------PROFILE PAGE OF USER------------------------------------------------
+
 
 def user_hub(username,id)
 
 
 
-Shoes.app(title:"HUB",height:800,width:1300,resizable:false,) do 
+window(title:"HUB",height:800,width:1300,resizable:false) do 
 	image("images/w1.jpg",height:800,width:1300)
 	
 
@@ -23,6 +25,40 @@ Shoes.app(title:"HUB",height:800,width:1300,resizable:false,) do
 		@user_name=username
 		caption("Welcome #{username}",left:550,underline:"double")
 	end
+#----------------------------------------ADD MEMBER-----------------------------------------------------------#
+
+	stack(right:0,top:190,height:50,width:150) do
+		# background red
+		# button ("check") do 
+			if connect
+				adminset=[]
+				sql="select is_admin from community_details where id=#{id}"
+				getadmin=@@con.query(sql)
+				getadmin.each do |admin|
+					adminset<<admin
+
+				end
+				if adminset.include?(:is_admin=>1)
+					button("ADD MEMBER",right:0,top:0) do
+						addmemberfunction
+
+
+					end
+
+				else
+					
+
+				end
+
+
+			
+			end
+
+		# end
+
+
+	end
+
 
 #------------------------------------------COMPLAINT BOX OPTION------------------------------------------------
 
@@ -277,6 +313,12 @@ Shoes.app(title:"HUB",height:800,width:1300,resizable:false,) do
 	end
 end
 end
+
+
+
+
+
+
 
 #------------------------------------------MY PROJECTS FUNCTIONING OPTION------------------------------------------------
 

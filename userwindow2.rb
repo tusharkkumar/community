@@ -1,3 +1,5 @@
+
+
 $path=File.join(File.dirname(__FILE__),"lib","")
 $path_back=File.join(File.dirname(__FILE__),"../")
 require $path + "person_details.rb"

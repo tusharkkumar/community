@@ -1,5 +1,4 @@
 
-
 $path=File.join(File.dirname(__FILE__),"lib","")
 require $path + "person_details.rb"
 require $path + "comunitydetails.rb"
@@ -33,7 +32,7 @@ end
 
 #-----------------------------------------------MAINPAGE----------------------------------------##
 
-Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,resizable:false,:scroll=>false) do 
+Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false) do 
 		
 		image"images/welcome3.jpg",height:800,width:1300,top:00
 		timer(1) do 
@@ -82,7 +81,7 @@ end
 
 def start_login
 
-		Shoes.app(title:"COMMUNITY LOGIN",height:800,width:1300,resizable:false) do 
+		window(title:"COMMUNITY LOGIN",height:800,width:1300,resizable:false) do 
 
 					image "images/w1.jpg",height:800,width:1300,top:00
 					timer(1) do 
@@ -335,7 +334,7 @@ end
 #------------------------------------------SIGNUP PANEL------------------------------------------------	
 
 def start_signup
-	Shoes.app(title:"COMMUNITY SIGNUP",height:800,width:1300,resizable:false)do 
+	window(title:"COMMUNITY SIGNUP",height:800,width:1300,resizable:false)do 
 		image "images/w1.jpg",height:800,width:1300,top:00
 		timer(1) do 
 		image "images/logo.png",height:60,width:200,top:00,left:800
