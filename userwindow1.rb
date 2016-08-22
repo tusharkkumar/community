@@ -12,7 +12,7 @@ def user_hub(username,id)
 
 
 
-Shoes.app(height:800,width:1300,resizable:false,) do 
+Shoes.app(title:"HUB",height:800,width:1300,resizable:false,) do 
 	image("images/w1.jpg",height:800,width:1300)
 	
 

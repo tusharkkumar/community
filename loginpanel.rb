@@ -101,9 +101,9 @@ def start_login
   						self.close
 
 
-
-
 				end
+
+				
 
 
 # # #-----------------------------------------------SHARE IDEAS BUTTON----------------------------------------##
@@ -194,7 +194,7 @@ def start_login
 
 						# flow(top:10,left:95) do
 
-							flow(top:10,left:95) do
+							flow(top:10,left:20) do
 
 								caption("Username",height:30,width:120,font:"Algerian",stroke:white)
 								# para("username",font:"Algerian",stroke:white,size:15)
@@ -202,7 +202,7 @@ def start_login
 								@username=edit_line 
 							end
 
-							flow(top:50,left:100) do
+							flow(top:50,left:24) do
 								caption("Password",height:30,width:120,stroke:white,font:"Algerian")
 								para " "
 								@password=edit_line :secret=>true
@@ -212,7 +212,7 @@ def start_login
 					
 # # 		#--------------------------------------LOGIN FUNCTION----------------------------------------------------------
 							flow(left:0,top:100) do 
-							button("LOGIN",left:210) do
+							button("LOGIN",left:125) do
 								if connect
 								
 									if @username.text=="" or @password.text==""
@@ -254,12 +254,22 @@ def start_login
 								end
 							end
 
-							button("SignUp",left:300) do 
-								start_signup
-								self.close
+							@forget_password=button("Forget Password",left:200) do
+
+								
+									# if connect
+									if @username.text=="" 
+										alert "fill the username first "
+									else
+										passwordupdate(@username.text)
+
+									end 
+
+
+								
 
 							end
-						# end
+
 
 					end		
 					end
@@ -268,6 +278,59 @@ def start_login
 		
 end
 
+
+def passwordupdate(username)
+
+	window(title:"Forget Password",height:200,width:500) do
+	background black(0.6)
+		flow do
+			@new_password=edit_line
+			@savepassword=button("Update Password") do 
+
+				
+					if @new_password.text==""
+						alert "password field could not be empty"
+
+					else
+						if connect
+							usernames=[]
+							sql2="select username from community_details"
+							allusername=@@con.query(sql2)
+							allusername.each do |name|
+								usernames<<name
+
+							end
+							if @new_password.text.size < 6
+								alert "Password Must be of atleast 6 digit"
+							else
+								if usernames.include?(:username=>"#{username}")
+									sql="update community_details set password='#{@new_password.text}' where username='#{username}' "
+									res=@@con.query(sql)
+									alert "Password Recovery Successfully"
+									self.close
+													
+								else
+									alert "username does not exists fill correct username to Update password"
+								
+								end
+								
+							end
+						
+
+							
+						else
+							alert "connection not established"
+						end
+
+						
+					end
+
+				
+			end
+		end
+	end
+
+end
 
 #------------------------------------------SIGNUP PANEL------------------------------------------------	
 
@@ -310,7 +373,7 @@ def start_signup
 			para " "	
 			@name_community=edit_line }
 
-			flow(left:8,top:205){
+			flow(left:100,top:205){
 			para("Login As",font:"Algerian",stroke:white,size:15)
 			
 			para(":",font:"Algerian",stroke:white,size:15)
@@ -438,7 +501,7 @@ def admin_panel
 
 		window(title:"ADMIN PANEL",height:800,width:1300,resizable:false) do 
 				image"images/welcome3.jpg",height:800,width:1300,top:00
-				title("ADMIN PANEL",stroke:black,font:"Algerian",underline:"double",left:500,top:0) 
+				title("ADMIN PANEL",stroke:black,font:"Algerian",underline:"double",left:450,top:0) 
 				timer(1) do 
 				image "images/logo.png",height:60,width:200,top:00,left:800
 				end
