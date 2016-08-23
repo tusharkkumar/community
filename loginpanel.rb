@@ -135,7 +135,7 @@ def start_login
 						end
 
 
-						@shareideasstack=stack(top:25,left:0,height:800,width:500) do 
+						@shareideasstack=stack(top:25,left:0,height:800,width:500,:scroll=>true) do 
 						background black(0.6)
 						@login_ideas.show
 
@@ -390,7 +390,36 @@ def start_signup
 
 				flow(left:20,top:250) do 
 				button("Sign Up",left:200,align:"center") do
-					signup_validation
+				 	if connect
+				 		usernames=[]
+						sql2="select username from community_details"
+						allusername=@@con.query(sql2)
+						allusername.each do |name|
+							usernames<<name
+
+						end	
+						emails=[]
+						sql2="select email from community_details"
+						allemails=@@con.query(sql2)
+						allemails.each do |e|
+							emails<<e
+
+						end	
+						if usernames.include?(:username=>"#{@username_s.text}")
+
+							alert "username already exits try different username"
+						elsif emails.include?(:email=>"#{@email.text}")
+							alert "email already registered try different email" 
+
+							
+						else
+
+							signup_validation
+						end
+					else
+						alert "connection not established"
+				 	end					
+						
 
 				end
 				button("Login",left:300) do
@@ -423,9 +452,10 @@ def signup_validation
 						if @array.include? (".")
 							@is_admin=@is_admin.checked ? 1:0
 							@is_member=@is_member.checked ? 1:0
-
+							
+								
+							
 							insert_details
-
 						else
 							alert "Email does not contain .com or .in "
 						end
@@ -451,17 +481,24 @@ end
 # #------------------------------------------SIGNUP INSERT DETAILS------------------------------------------------
 
 def insert_details
-	# alert "working fine"
-	res=insert(@username_s.text,@password_s.text,@email.text,@name_community.text,@is_admin,@is_member)
-	alert "Sign Up Successfully Saved"
-	@username_s.text=""
-	@password_s.text=""
-	@email.text=""
-	@name_community.text=""
-	@is_admin=""
-	@is_member=""
-	@confirm_password_s.text=""
-	@@con=nil
+			res=insert(@username_s.text,@password_s.text,@email.text,@name_community.text,@is_admin,@is_member)
+			alert "Sign Up Successfully Saved"
+			@username_s.text=""
+			@password_s.text=""
+			@email.text=""
+			@name_community.text=""
+			@is_admin=""
+			@is_member=""
+			@confirm_password_s.text=""
+			# @@con=nil		
+
+	# else alert "User with this Username exists try another name"
+
+	# end		
+		# alert "done now you can apply"	
+		
+
+
 
 end
 
