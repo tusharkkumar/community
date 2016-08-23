@@ -40,9 +40,16 @@ Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false
 		end
 		
 		image("images/title.png",left:400,top:0,height:80,width:400)
+
+
+		
+
+		
+
 		
 #-----------------------------------------------DOWNIMAGES----------------------------------------##
 		stack(top:700,left:0) do 
+			# background red
 
 			flow do 
 				image("images/login.png",height:35,width:90) do 
@@ -74,6 +81,8 @@ Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false
 
 
 		end
+			
+
 end
 
 
@@ -128,16 +137,18 @@ def start_login
 
 # #-----------------------------------------------SHAREIDEAS----------------------------------------##
 
-						@login_ideas=button("x",left:480,top:8,height:20,width:20,:hidden=>true ) do 
-							@shareideasstack.hide
-							@login_ideas.hide
-
-						end
+						
 
 
 						@shareideasstack=stack(top:25,left:0,height:800,width:500,:scroll=>true) do 
-						background black(0.6)
-						@login_ideas.show
+							background black(0.6)
+							
+
+							@login_ideas=button("x",left:480,top:0,height:20,width:20) do 
+							@shareideasstack.hide
+							@login_ideas.hide
+
+							end
 
 						
 

@@ -25,6 +25,53 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 		@user_name=username
 		caption("Welcome #{username}",left:550,underline:"double")
 	end
+
+#----------------------------------------SEARCH MEMBER-----------------------------------------------------------#
+	stack(height:100,width:300,left:0,top:0) do
+			# background red
+
+			flow do 	
+				@searchmember=edit_line
+				@findmember=button("Search") do 
+					if connect
+						@searchnames=[]
+						sql="select username from community_details where username like('#{@searchmember.text}%') "
+						user=@@con.query(sql)
+						user.each do |u|
+
+							@searchnames<<u[:username]
+						end
+						
+
+						@showfindnames=stack(height:500,width:300,top:27,left:0) do 
+							background black(0.6)
+							@searchnames.each do |names|
+								caption(names,:stroke=>white) 
+							end
+							@login_ideas=button("x",right:0,top:0,height:20,width:20) do 
+								@showfindnames.hide
+								@login_ideas.hide
+
+							end
+								
+						end
+
+					end
+
+
+				end
+
+
+			end 
+			
+
+
+
+		end
+
+
+
+
 #----------------------------------------ADD MEMBER-----------------------------------------------------------#
 
 	stack(right:0,top:190,height:50,width:150) do
