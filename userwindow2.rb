@@ -128,7 +128,7 @@ end
 
 def show_details(id)
 
-	@detail_display=stack(left:430,top:50,height:550,width:400,:hidden=>true) do 
+	@detail_display=stack(left:430,top:50,height:650,width:400,:hidden=>true) do 
 		background gray(0.6)
 		@btn1=button("X",left:380,top:0,height:20,width:20) do
 
@@ -153,6 +153,7 @@ def show_details(id)
 					@userAddress=user[:address]
 				end
 
+				stack(top:70) do 
 				caption "Name: #{@userName}"
 				para ""
 				caption "Address: #{@userAddress}"
@@ -166,6 +167,7 @@ def show_details(id)
 				caption "Interest: #{@userInterests}"
 				para ""
 				caption "Requirement:#{@userRequirement}"
+				end
 				@@con=nil
 	
 			end

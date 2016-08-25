@@ -8,7 +8,7 @@ def addmemberfunction
 		background black(0.6)
 		stack do 
 			flow do 
-				@membername=edit_line
+				@membername=edit_line("add using the username")
 				@search_button=button("Search") do
 
 					if @membername.text==""
