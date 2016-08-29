@@ -6,25 +6,124 @@ require "loginpanel.rb"
 require $path_forw + "person_details.rb"
 require $path_forw + "quara.rb"
 require $path_forw + "features.rb"
+require $path_forw + "features.rb"
+require $path_forw + "chattingpanel.rb"
 
-#------------------------------------------PROFILE PAGE OF USER------------------------------------------------
+
+#-----------------------------------PROFILE PAGE OF USER------------------------------------------------
 
 
 def user_hub(username,id)
 
-
-
 window(title:"HUB",height:800,width:1300,resizable:false) do 
 	image("images/w1.jpg",height:800,width:1300)
-	
-
-
 	stack(left:0,height:50,width:1300,top:0)do 
 
 		@id_user=id
 		@user_name=username
 		caption("Welcome #{username}",left:550,underline:"double")
 	end
+#---------------------------------------- -----------------------------------------------------------#
+	stack(top:200,right:0,height:50,width:150) do 
+		button("Notifications",right:5) do 
+			if connect
+				sql="update "
+				
+				
+			end
+
+		end
+
+
+	end
+#----------------------------------------chatting panel-----------------------------------------------------------#
+
+	stack(height:50,width:150,top:100,right:5) do 
+		# background red
+		button("Chatting Panel",right:0) do 
+			chattingpanel
+
+
+		end
+
+
+	end
+
+
+
+
+#------------------------------------------UPDATE PICTUREOPTION------------------------------------------------
+	
+	
+	@image_stack=stack(top:50,height:250,width:150,left:0) do 
+		@id_user=id
+		# @p=image("a.png",height:180,width:160,left:0,top:0)
+		button("UPDATE PICTURE",width:170,top:180,left:0)do 
+		@profile_picture=ask_open_file
+
+		if connect
+			# sql="select * from profiles where id=#{id}"
+			# @res=@@con.query(sql)
+			# @res.each do |r|
+			# 	@link=r[:image]
+			# end
+			# alert @link
+
+			@id_get=[]
+
+			sql1="select * from profiles"
+			getid=@@con.query(sql1)
+			getid.each do |user|
+					@id_get<<user[:id]
+			end
+
+			if @id_get.include?(id)
+				sql="update profiles set image='a.png' where id=#{id} "
+				res=@@con.query(sql)
+
+
+			else
+
+				sql="insert into profiles(id,user,image) values(#{id},'#{username}','#{@profile_picture}')"
+				res=@@con.query(sql)
+					
+					
+
+			end
+
+
+		
+		end
+		# alert @profile_picture 	
+		image("#{@link}",height:180,width:160,left:0,top:52)
+
+
+
+
+		# @p.image("#{@profile_picture}",height:400,width:350,left:0,top:0)
+			
+		# end
+	end
+
+
+
+#----------------------------------------SEARCH MEMBER-----------------------------------------------------------#
+
+
+stack(top:500,width:150,left:0) do 
+		# background gray
+		caption("MEMBER DETAILS",underline:"double",stroke:white)
+		button("MEMBER LIST",width:150) do 
+			member_list
+		end 
+		button("SEND MESSAGE",width:150) do
+			send_message(username,id)
+			
+		end
+	end
+  
+
+
 
 #----------------------------------------SEARCH MEMBER-----------------------------------------------------------#
 	stack(height:100,width:300,left:0,top:0) do
@@ -44,7 +143,6 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 							@searchnames<<u[:username]
 							# @allid<<u[:id]
 						end
-						
 
 						@showfindnames=stack(height:500,width:280,top:27,left:0) do 
 							background black(0.6)
@@ -143,13 +241,12 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 
 
 		end
-
-
+#----------------------------------------MESSAGE USER-----------------------------------------------------------#
 
 
 #----------------------------------------ADD MEMBER-----------------------------------------------------------#
 
-	stack(right:0,top:190,height:50,width:150) do
+	stack(right:0,top:150,height:50,width:150) do
 		# background red
 		# button ("check") do 
 			if connect
@@ -161,7 +258,7 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 
 				end
 				if adminset.include?(:is_admin=>1)
-					button("ADD MEMBER",right:0,top:0) do
+					button("ADD MEMBER",right:13,top:0) do
 						addmemberfunction
 
 
@@ -175,6 +272,7 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 
 			
 			end
+
 
 		# end
 
@@ -294,14 +392,10 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 		end
 	end
 
-#------------------------------------------UPDATE PICTUREOPTION------------------------------------------------
 
-	stack(top:200,left:0) do 
-		# background yellow
-		button("UPDATE PICTURE",width:150)do 
-			@profile_picture=ask_open_file
-		end
-	end
+	#-----------------------------------------PROFILE PICTURE STACK ------------------------------------------------
+
+		 
 #------------------------------------------OUES AND ANSWERS OPTION------------------------------------------------
 
 	stack(left:830,top:350,height:400,width:470) do 
@@ -332,11 +426,7 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 			end
 		end
 	end
-#-----------------------------------------PROFILE PICTURE STACK ------------------------------------------------
 
-	@image_stack=stack(top:50,height:180,width:150,left:0) do 
-		background black 
-	end
 	
 
 	stack(width:150,left:0,top:350) do 
@@ -355,35 +445,26 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 #------------------------------------------USER RELATED FUNCTIONS------------------------------------------------
 
 
-	stack(top:500,width:150,left:0) do 
-		# background gray
-		caption("MEMBER DETAILS",underline:"double",stroke:white)
-		button("MEMBER LIST",width:150) do 
-			member_list
-		end 
-		button("MEMBER SEARCH",width:150) do
-			member_search
-		end
-	end
+	
 #------------------------------------------FILL PERSONAL DETAILS OPTION------------------------------------------------
 
 	@detail_show=stack(left:170,top:50,width:260,height:210) do
 		stack do 
-			button("FILL YOU PERSONAL DETAILS") do 
+			button("FILL YOUR PERSONAL DETAILS",width:200) do 
 			personal_details(@id_user)
 			@detail_stack.show
 			@detail_display.hide
 			@hub_details.hide
 			end
 #------------------------------------------SHOW YOU DETAILS  OPTION------------------------------------------------
-			button "YOUR DETAILS" do 
+			button("YOUR DETAILS",width:150) do 
 				show_details(@id_user)
 				@detail_display.show
 				@detail_stack.hide
 				@hub_details.hide
 			end
 #------------------------------------------GROUP RELATED OPTION------------------------------------------------
-			button "HUB DETAILS" do
+			button("HUB DETAILS",width:100) do
 				hub_details(@id_user)
 				@hub_details.show
 				@detail_stack.hide
@@ -611,48 +692,4 @@ end
 
 #------------------------------------------MEMBER LIST FUNCTIONING  OPTION------------------------------------------------
 
-	def member_list
-		window(height:500,width:800,resizable:false) do 
-			caption("Click to Display Your Members >>")
-			button "Your Members" do 
-				@memberlist_stack.show
-			end
-
-			@memberlist_stack=stack(:hidden=>true,left:10,top:70)do 
-				flow do 
-				para "1"
-				@member1=edit_line
-				end
-				flow do 
-
-				para "2"
-				@member2=edit_line
-				end
-				flow do 
-				para "3"
-				@member3=edit_line
-				end
-				flow do 
-				para "4"
-				@member4=edit_line
-				end
-				flow do 
-				para "5"
-				@member5=edit_line
-				end
-				flow do 
-				para "6"
-				@member6=edit_line
-				end
-				flow do 
-				para "7"
-				@member7=edit_line
-				end
-				flow do 
-				para "8"
-				@member8=edit_line
-				end
-			end
-		end
-	end
 

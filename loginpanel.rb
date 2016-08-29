@@ -3,6 +3,7 @@ $path=File.join(File.dirname(__FILE__),"lib","")
 require $path + "person_details.rb"
 require $path + "comunitydetails.rb"
 require $path + "adminpanel.rb"
+# require $path + "chattingpanel.rb"
 require "userwindow1.rb"
 
 #-----------------------------------------------SETUP----------------------------------------##
@@ -21,6 +22,7 @@ end
 	require "prawn"
 
 #-----------------------------------------------CONNECT----------------------------------------##
+
 
 	def connect
 		@@con=Mysql2::Client.new(:host=>"localhost",:database=>"communitybase",:username=>"root",:password=>"")
@@ -42,7 +44,6 @@ Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false
 		image("images/title.png",left:400,top:0,height:80,width:400)
 
 
-		
 
 		
 
@@ -107,6 +108,7 @@ def start_login
   				@admin_button=button("Admin Panel",right:0,top:0)do
   						admin_panel 
   						self.close
+
 
 
 				end
@@ -190,14 +192,6 @@ def start_login
 						end	
 					end	
 # 	
-
-
-					
-
-				 
-
-
-
 # 		#------------------------------------------LOGINPANELOPTINS------------------------------------------------
 					stack(top:300,left:400,height:200,width:400)do
 						background black(0.6)
@@ -220,7 +214,7 @@ def start_login
 
 
 					
-# # 		#--------------------------------------LOGIN FUNCTION----------------------------------------------------------
+# # #--------------------------------------LOGIN FUNCTION----------------------------------------------------------
 							flow(left:0,top:100) do 
 							button("LOGIN",left:125) do
 								if connect
