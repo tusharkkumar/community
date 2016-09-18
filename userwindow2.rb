@@ -8,6 +8,9 @@ require $path + "chattingpanel.rb"
 
 
 
+
+
+
 #------------------------------------------PERSONAL DETAILS WORKING ------------------------------------------------
 
 
@@ -81,7 +84,7 @@ def personal_details(id)
 												alert "address must contain the proper desciption"
 												
 
-											elsif @contact_no.text.to_s.size<=10 
+											elsif @contact_no.text.to_s.size<10 or @contact_no.text.to_s.size>10 
 												alert "contact must be of 10 digit"
 											else
 											updatedata(@id_user,@name.text,@qualification.text,@interests.text,@contact_no.text,@experiance.text,@requirement.text,@address.text)

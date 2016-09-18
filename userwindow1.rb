@@ -6,11 +6,13 @@ require "loginpanel.rb"
 require $path_forw + "person_details.rb"
 require $path_forw + "quara.rb"
 require $path_forw + "features.rb"
-require $path_forw + "features.rb"
+
 require $path_forw + "chattingpanel.rb"
 
 
 #-----------------------------------PROFILE PAGE OF USER------------------------------------------------
+
+
 
 
 def user_hub(username,id)
@@ -24,22 +26,60 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 		caption("Welcome #{username}",left:550,underline:"double")
 	end
 #---------------------------------------- -----------------------------------------------------------#
-	stack(top:200,right:0,height:50,width:150) do 
-		button("Notifications",right:5) do 
+	@skip=stack(top:200,right:4,height:45,width:150) do 
+		
+		if connect
+			sql="select * from communication"
+			@res=@@con.query(sql)
+			@res.each do |u|
+				
+				@n=u[:send_to]
+
+				if @n==username
+						
+					background red
+					
+				end
+
+
+			end
+
+		end
+		
+		
+
+	end
+
+
+		button("Notifications",right:10,top:205) do 
+			@skip.hide
+			@send_user=[]
 			if connect
-				sql="update "
+				sql="select message,send_from from communication where send_to='#{username}'"
+				@messages=@@con.query(sql)
+				@messages.each do |m|
+					@message=m[:message]
+
+					@send_user << m[:send_from]
+					
+
+				end
+
+					notification_funtion(@send_user,username,id)
+
+				
 				
 				
 			end
 
 		end
 
-
-	end
 #----------------------------------------chatting panel-----------------------------------------------------------#
 
 	stack(height:50,width:150,top:100,right:5) do 
 		# background red
+
+
 		button("Chatting Panel",right:0) do 
 			chattingpanel
 
@@ -48,8 +88,12 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 
 
 	end
+#------------------------------------------UPDATE PICTUREOPTION------------------------------------------------
 
-
+	@refresh_button=button("Refresh",top:0,right:330) do 
+		user_hub(username,id)
+		self.close
+	end
 
 
 #------------------------------------------UPDATE PICTUREOPTION------------------------------------------------
@@ -57,52 +101,60 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 	
 	@image_stack=stack(top:50,height:250,width:150,left:0) do 
 		@id_user=id
+
+
 		# @p=image("a.png",height:180,width:160,left:0,top:0)
 		button("UPDATE PICTURE",width:170,top:180,left:0)do 
-		@profile_picture=ask_open_file
 
-		if connect
-			# sql="select * from profiles where id=#{id}"
-			# @res=@@con.query(sql)
-			# @res.each do |r|
-			# 	@link=r[:image]
+			# if connect
+			# 	# show image
+			# 	sql="select * from profiles where id=#{id}"
+			# 	@res=@@con.query(sql)
+			# 	@res.each do |r|
+			# 		@profile_pictures=r[:image]
+			# 	end
+			# 	# alert @profile_pictures
+			# 	image("#{@profile_pictures}",height:180,width:160,left:0,top:52)
+
+			# # 	 # alert @link
+				
 			# end
-			# alert @link
+			#-----------------------------
 
-			@id_get=[]
+			# if connect
+			# 	@profile_picture=ask_open_file
 
-			sql1="select * from profiles"
-			getid=@@con.query(sql1)
-			getid.each do |user|
-					@id_get<<user[:id]
-			end
+			# 		# image("#{@profile_picture}",height:180,width:160,left:0,top:52)
+			# 	@image_save=image("#{@profile_picture}")
+			# 	@id_get=[]
 
-			if @id_get.include?(id)
-				sql="update profiles set image='a.png' where id=#{id} "
-				res=@@con.query(sql)
+			# 	sql1="select * from profiles"
+			# 	getid=@@con.query(sql1)
+			# 	getid.each do |user|
+			# 			@id_get<<user[:id]
+			# 	end
 
-
-			else
-
-				sql="insert into profiles(id,user,image) values(#{id},'#{username}','#{@profile_picture}')"
-				res=@@con.query(sql)
-					
-					
-
-			end
+			# 	if @id_get.include?(id)
+			# 		sql="update profiles set image='#{@image_save}' where id=#{id} "
+			# 		res=@@con.query(sql)
+			# 		alert "updated"
 
 
-		
-		end
-		# alert @profile_picture 	
-		image("#{@link}",height:180,width:160,left:0,top:52)
+			# 	else
+
+			# 		sql="insert into profiles(id,user,image) values(#{id},'#{username}','#{@profile_picture}')"
+			# 		res=@@con.query(sql)
+	
+
+						
+
+			# 	end
 
 
-
-
-		# @p.image("#{@profile_picture}",height:400,width:350,left:0,top:0)
 			
-		# end
+			# end
+
+		end
 	end
 
 
@@ -166,10 +218,10 @@ stack(top:500,width:150,left:0) do
 												 #---- the thing we are using to send this to the next stage--#
 												 
 
-												 @communityname_name
-												 @id_email
-												 @id_map
-												 @name_user
+												 # @communityname_name
+												 # @id_email
+												 # @id_map
+												 # @name_user
 
 								
 												 #---- the thing we are using to send this to the next stage--#
@@ -393,7 +445,7 @@ stack(top:500,width:150,left:0) do
 	end
 
 
-	#-----------------------------------------PROFILE PICTURE STACK ------------------------------------------------
+#-----------------------------------------PROFILE PICTURE STACK ------------------------------------------------
 
 		 
 #------------------------------------------OUES AND ANSWERS OPTION------------------------------------------------

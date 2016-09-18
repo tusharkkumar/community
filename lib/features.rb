@@ -102,17 +102,29 @@ def send_message(username,id)
 												stack(width:300,height:50,bottom:0)do
 													flow do 
 														button("send") do 
-															if connect
-																# alert "working"
-																
+															if @message_send.text=="" 
+																alert "you cannot send the blank Messages" 
 
-															
-															 sql="insert into communication(id,user,message,message_to) values(#{id},'#{username}','#{@message_send.text}','#{names}') "
-																res=@@con.query(sql)
-																alert "message successfully send"
+
+															else
+
+																if connect
+																# alert "working"
+																	if username==names	
+																		alert "message cannot be send to your own name"
+
+																	else
+																		sql="insert into communication(id,send_from,send_to,message) values(#{id},'#{username}','#{names}','#{@message_send.text}')"
+																		res=@@con.query(sql)
+																		alert "message successfully send"
+																	
+
+																	end
+																 
+																end
+																@all_stack.hide
 																
 															end
-															@all_stack.hide
 
 														end
 
@@ -163,4 +175,110 @@ def send_message(username,id)
 		end	
 	end
 	
+end
+
+
+
+
+#------------------------------------------SEND NOTIFICATIONS------------------------------------------------
+
+def notification_funtion(usersends,username,userloginid)
+
+	window(:title=>'Messages',height:600,width:700) do 
+	background black(0.6)
+
+	caption("All Messages:",top:10)
+	stack(height:700,width:200,left:0,:scroll=>true,top:40) do 
+
+		usersends.each do |u|
+			stack do 
+				button("#{u}") do 
+					@@flag=0
+
+					@open_mess=stack(height:500,width:500,left:200,top:10) do 
+						button("close",right:43,top:0) do 
+							@open_mess.hide
+						end
+
+		# background red
+						caption("#{u}:",left:10)
+
+						stack(width:500,height:200,top:20) do 
+							if connect
+								sql="select message from communication where send_from='#{u}' "
+								@res=@@con.query(sql)
+								@res.each do |mess|
+									@message_get=mess[:message]
+								end
+
+
+
+							end
+							# background blue
+							@display_area=edit_box("#{@message_get}",left:5,top:10,height:200,width:450,:scroll=>true)
+						end
+
+						stack(top:230,left:10) do 
+							# background green
+							flow do 
+								button("previous") do 
+									if connect
+									end
+								end
+
+								button("next") do 
+									if connect
+										
+									end
+								end
+
+								button("reply") do
+									if @display_area.text==""
+										alert "you can't reply with blank message"
+									else
+
+
+										if connect
+											sql="insert into communication(id,send_from,send_to,message) values(#{userloginid},'#{username}','#{u}','#{@display_area.text}')  "
+											# sql="insert into communication(id) values(#{userloginid})  "
+
+											@res=@@con.query(sql)
+											alert "message successfully send"
+
+
+											
+										end
+
+									end
+
+
+
+								end
+
+
+							end
+
+						end
+
+					end	
+
+
+
+
+				end
+			end
+
+
+
+		end
+	end
+
+
+
+
+
+	end
+
+
+
 end
