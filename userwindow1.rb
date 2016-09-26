@@ -55,7 +55,7 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 			@skip.hide
 			@send_user=[]
 			if connect
-				sql="select message,send_from from communication where send_to='#{username}'"
+				sql="select distinct send_from from communication where send_to='#{username}'"
 				@messages=@@con.query(sql)
 				@messages.each do |m|
 					@message=m[:message]
@@ -88,7 +88,7 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 
 
 	end
-#------------------------------------------UPDATE PICTUREOPTION------------------------------------------------
+#------------------------------------------REFRESH BUTTON------------------------------------------------
 
 	@refresh_button=button("Refresh",top:0,right:330) do 
 		user_hub(username,id)
@@ -96,67 +96,7 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 	end
 
 
-#------------------------------------------UPDATE PICTUREOPTION------------------------------------------------
 	
-	
-	@image_stack=stack(top:50,height:250,width:150,left:0) do 
-		@id_user=id
-
-
-		# @p=image("a.png",height:180,width:160,left:0,top:0)
-		button("UPDATE PICTURE",width:170,top:180,left:0)do 
-
-			# if connect
-			# 	# show image
-			# 	sql="select * from profiles where id=#{id}"
-			# 	@res=@@con.query(sql)
-			# 	@res.each do |r|
-			# 		@profile_pictures=r[:image]
-			# 	end
-			# 	# alert @profile_pictures
-			# 	image("#{@profile_pictures}",height:180,width:160,left:0,top:52)
-
-			# # 	 # alert @link
-				
-			# end
-			#-----------------------------
-
-			# if connect
-			# 	@profile_picture=ask_open_file
-
-			# 		# image("#{@profile_picture}",height:180,width:160,left:0,top:52)
-			# 	@image_save=image("#{@profile_picture}")
-			# 	@id_get=[]
-
-			# 	sql1="select * from profiles"
-			# 	getid=@@con.query(sql1)
-			# 	getid.each do |user|
-			# 			@id_get<<user[:id]
-			# 	end
-
-			# 	if @id_get.include?(id)
-			# 		sql="update profiles set image='#{@image_save}' where id=#{id} "
-			# 		res=@@con.query(sql)
-			# 		alert "updated"
-
-
-			# 	else
-
-			# 		sql="insert into profiles(id,user,image) values(#{id},'#{username}','#{@profile_picture}')"
-			# 		res=@@con.query(sql)
-	
-
-						
-
-			# 	end
-
-
-			
-			# end
-
-		end
-	end
-
 
 
 #----------------------------------------SEARCH MEMBER-----------------------------------------------------------#
@@ -180,7 +120,7 @@ stack(top:500,width:150,left:0) do
 #----------------------------------------SEARCH MEMBER-----------------------------------------------------------#
 	stack(height:100,width:300,left:0,top:0) do
 			# background red
-
+			
 			flow do 	
 				@searchmember=edit_line("Search using username")
 				@findmember=button("Search") do

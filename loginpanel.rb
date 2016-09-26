@@ -25,7 +25,7 @@ end
 
 
 	def connect
-		@@con=Mysql2::Client.new(:host=>"localhost",:database=>"communitybase",:username=>"root",:password=>"")
+		@@con=Mysql2::Client.new(:host=>"localhost",:database=>"communitybase",:username=>"root",:password=>"Tushar786")
 		@@con.query_options.merge!(:symbolize_keys=>true)
 		return true if @@con
 	end
@@ -34,7 +34,7 @@ end
 
 #-----------------------------------------------MAINPAGE----------------------------------------##
 
-Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false) do 
+Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false,resizable:false) do 
 		
 		image"images/welcome3.jpg",height:800,width:1300,top:00
 		timer(1) do 
@@ -49,7 +49,7 @@ Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false
 
 		
 #-----------------------------------------------DOWNIMAGES----------------------------------------##
-		stack(top:700,left:0) do 
+		stack(top:670,left:0) do 
 			# background red
 
 			flow do 
@@ -68,6 +68,7 @@ Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false
 						background black
 						image("images/aboutus.png")
 					end
+					
 				end
 				para("|",stroke:white,size:15.5,left:1171)
 				image("images/contactus.png",height:35,width:120,right:0) do 
