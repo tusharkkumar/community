@@ -35,6 +35,7 @@ end
 #-----------------------------------------------MAINPAGE----------------------------------------##
 
 Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false,resizable:false) do 
+
 		
 		image"images/welcome3.jpg",height:800,width:1300,top:00
 		timer(1) do 
@@ -44,9 +45,7 @@ Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false
 		image("images/title.png",left:400,top:0,height:80,width:400)
 
 
-
 		
-
 		
 #-----------------------------------------------DOWNIMAGES----------------------------------------##
 		stack(top:670,left:0) do 
@@ -350,7 +349,7 @@ def start_signup
 			title("SIGNUP HERE",align:"center",font:"Algerian",stroke:"#00ffff",underline:"double",stroke:black)
 
 #------------------------------------------SIGNUPDETAILS------------------------------------------------
-		stack(top:250,left:400,height:400,width:500)do
+		stack(top:250,left:400,height:400,width:500) do
 			background black(0.6)
 			flow(top:10,left:114){
 			para("username",font:"Algerian",stroke:white,size:15)
@@ -359,42 +358,50 @@ def start_signup
 
 			para " "
 
-			flow(top:50,left:120){
-			para("password",font:"Algerian",stroke:white,size:15)
+			flow(top:50,left:120) do
+				para("password",font:"Algerian",stroke:white,size:15)
+				para " "
+				@password_s=edit_line :secret=>true
+			end
 			para " "
-			@password_s=edit_line :secret=>true}
-			para " "
-			
+			flow(left:38,top:90) do 
+				para("confirm password",font:"Algerian",stroke:white,size:15)
+				para " "
+				@confirm_password_s=edit_line :secret=>true
+			end
 
-			flow(left:38,top:90){para("confirm password",font:"Algerian",stroke:white,size:15)
-			para " "
-			@confirm_password_s=edit_line :secret=>true}
+			flow(left:157,top:130) do 
+				para("email",font:"Algerian",stroke:white,size:15)
+				para " "	
+				@email=edit_line
+			end
 
-			flow(left:157,top:130){para("email",font:"Algerian",stroke:white,size:15)
-			para " "	
-			@email=edit_line}
+			flow(left:25,top:170) do 
+				para("HuB(Group) Name",font:"Algerian",stroke:white,size:15)
+				para " "	
+				@name_community=edit_line 
+			end
 
-			flow(left:25,top:170){para("HuB(Group) Name",font:"Algerian",stroke:white,size:15)
-			para " "	
-			@name_community=edit_line }
+			flow(left:100,top:205) do 
+				
+				para("Login As",font:"Algerian",stroke:white,size:15)
+				
+				para(":",font:"Algerian",stroke:white,size:15)
+				para " "
+				
+				@is_admin=check;
+				para("Admin",font:"Algerian",stroke:white,size:15)
+				@is_admin.checked=false
+				
+				para "  "
+				
+				@is_member=check
+				para("Member",font:"Algerian",stroke:white,size:15)
+				@is_member.checked=false
 
-			flow(left:100,top:205){
-			para("Login As",font:"Algerian",stroke:white,size:15)
-			
-			para(":",font:"Algerian",stroke:white,size:15)
-			para " "
-			
-			@is_admin=check;
-			para("Admin",font:"Algerian",stroke:white,size:15)
-			@is_admin.checked=false
-			
-			para "  "
-			
-			@is_member=check
-			para("Member",font:"Algerian",stroke:white,size:15)
-			@is_member.checked=false}
+			end
 
-				flow(left:20,top:250) do 
+			flow(left:20,top:250) do 
 				button("Sign Up",left:200,align:"center") do
 				 	if connect
 				 		usernames=[]
@@ -425,24 +432,18 @@ def start_signup
 					else
 						alert "connection not established"
 				 	end					
-						
+							
 
 				end
+
 				button("Login",left:300) do
 					start_login
 					self.close
 				end
 
-				end
-
-
-
+			end
 		end
-
-
 	end
-
-
 end
 #------------------------------------------SIGNUP VALIDATION------------------------------------------------
 

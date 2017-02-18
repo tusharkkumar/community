@@ -122,30 +122,31 @@ stack(top:500,width:150,left:0) do
 			# background red
 			
 			flow do 	
-				@searchmember=edit_line("Search using username")
+				@searchmember=edit_line("Search using language")
 				@findmember=button("Search") do
 
 					if connect
-						@searchnames=[]
+						@community_name=[]
 						@allid=[]
-						sql="select username,id from community_details where username like('#{@searchmember.text}%') "
+						sql="select username,id,name_community from community_details where name_community like('#{@searchmember.text}%') "
 						user=@@con.query(sql)
 						user.each do |u|
 
-							@searchnames<<u[:username]
+
+							@community_name<<u[:name_community]
 							# @allid<<u[:id]
 						end
 
-						@showfindnames=stack(height:500,width:280,top:27,left:0) do 
+						@showfindnames=stack(height:500,width:280,top:27,left:0,:scroll=>true) do 
 							background black(0.6)
-							@searchnames.each do |names|
+							@community_name.each do |names|
 								
 									flow do
 
 										caption(names,:stroke=>white) 
 										button("Details") do 
 											if connect
-												sql="select * from community_details where username='#{names}' "
+												sql="select * from community_details where name_community='#{names}' and is_admin=1 "
 												res=@@con.query(sql)
 												res.each do |i|
 													@name_user=i[:username]
