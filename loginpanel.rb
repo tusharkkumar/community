@@ -33,6 +33,8 @@ end
 
 
 #-----------------------------------------------MAINPAGE----------------------------------------##
+def main_screen
+	
 
 Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false,resizable:false) do 
 
@@ -48,7 +50,7 @@ Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false
 		
 		
 #-----------------------------------------------DOWNIMAGES----------------------------------------##
-		stack(top:670,left:0) do 
+		stack(top:650,left:0) do 
 			# background red
 
 			flow do 
@@ -91,199 +93,204 @@ end
 
 def start_login
 
-		window(title:"COMMUNITY LOGIN",height:800,width:1300,resizable:false) do 
+	window(title:"COMMUNITY LOGIN",height:800,width:1300,resizable:false) do 
 
-					image "images/w1.jpg",height:800,width:1300,top:00
-					timer(1) do 
-					image "images/logo.png",height:60,width:200,top:00,left:800
-					end
-					# background "#4169e1".."#191970"
-					# title("LOGIN HERE",align:"center",font:"Algerian",stroke:"#00ffff",underline:"double",stroke:black)
-					title("LOGIN PANEL",width:400,left:490,top:0,stroke:black,font:"Algerian",underline:"double")
+		image "images/w1.jpg",height:800,width:1300,top:00
+		timer(1) do 
+		image "images/logo.png",height:60,width:200,top:00,left:800
+		end
+		# background "#4169e1".."#191970"
+		# title("LOGIN HERE",align:"center",font:"Algerian",stroke:"#00ffff",underline:"double",stroke:black)
+		# title("LOGIN PANEL",width:400,left:490,top:0,stroke:black,font:"Algerian",underline:"double")
+		image("images/loginpanel2.png",height:80,width:400,left:400)
 
 
 #   #--------------------------------------------ADMIN BUTTON---------------------------------------#
 
 
-  				@admin_button=button("Admin Panel",right:0,top:0)do
-  						admin_panel 
-  						self.close
+		@admin_button=image("images/adminpanel.png",right:0,top:0,height:30,width:140)do
+				admin_panel 
+				self.close
 
 
 
-				end
+		end
 
 				
 
 
 # # #-----------------------------------------------SHARE IDEAS BUTTON----------------------------------------##
 					
-					button "Future Ideas" do 
-						if connect
-							@user_array=[]
-							@ideas_array=[]
+		image("images/futureideas.png",left:0,height:30,width:140) do 
+			if connect
+				@user_array=[]
+				@ideas_array=[]
 
-							sql="select * from quara"
-							@res=@@con.query(sql)
-							@res.each do |u|
-								usernameget=u[:user]
-								@user_array << usernameget 
-								ideasget=u[:shareideas]
-								@ideas_array << ideasget 
-							end
-							
+				sql="select * from quara"
+				@res=@@con.query(sql)
+				@res.each do |u|
+					usernameget=u[:user]
+					@user_array << usernameget 
+					ideasget=u[:shareideas]
+					@ideas_array << ideasget 
+				end
+				
 
-						
-							@@con=nil	
-						end
+			
+				@@con=nil	
+			end
 
 # #-----------------------------------------------SHAREIDEAS----------------------------------------##
 
 						
 
 
-						@shareideasstack=stack(top:25,left:0,height:800,width:500,:scroll=>true) do 
-							background black(0.6)
-							
+			@shareideasstack=stack(top:25,left:0,height:800,width:500,:scroll=>true) do 
+				background black(0.6)
+				
 
-							@login_ideas=button("x",left:480,top:0,height:20,width:20) do 
-							@shareideasstack.hide
-							@login_ideas.hide
+				@login_ideas=button("x",left:480,top:0,height:20,width:20) do 
+				@shareideasstack.hide
+				@login_ideas.hide
 
-							end
-
-						
-
-							@user_array.each do |u|
-
-								stack do 
-									flow do 
-									 if u==""
-									 	u="NULL"
-									 	caption(u,stroke:white)
-										caption("says:",stroke:white)
-										# caption(i,stroke:white)
-									 else	
-									 	caption(u,stroke:white)
-										caption("says:",stroke:white)
-										# caption(i,stroke:white)
-									 end
-										
-									end
-								end
-							end
-							para ""
-							stack(top:0,left:120) do 
-								@ideas_array.each do |i|
-									
-										flow do 
-										   
-											if i!=""
-											 	caption(i,stroke:white)
-											else
-												i="NULL"
-											 	caption(i,stroke:white)
-											end
-											  
-										end
-
-								end
-							end
-						end	
-					end	
-# 	
-# 		#------------------------------------------LOGINPANELOPTINS------------------------------------------------
-					stack(top:300,left:400,height:200,width:400)do
-						background black(0.6)
-
-						# flow(top:10,left:95) do
-
-							flow(top:10,left:20) do
-
-								caption("Username",height:30,width:120,font:"Algerian",stroke:white)
-								# para("username",font:"Algerian",stroke:white,size:15)
-								para " "
-								@username=edit_line 
-							end
-
-							flow(top:50,left:24) do
-								caption("Password",height:30,width:120,stroke:white,font:"Algerian")
-								para " "
-								@password=edit_line :secret=>true
-							end
-
-
-					
-# # #--------------------------------------LOGIN FUNCTION----------------------------------------------------------
-							flow(left:0,top:100) do 
-							button("LOGIN",left:125) do
-								if connect
-								
-									if @username.text=="" or @password.text==""
-										alert "Check all the fields ...it must be filled"
-									else
-
-										sql="select id,username from community_details where username= '#{@username.text.downcase}' and password='#{@password.text.downcase}'"
-										result=@@con.query(sql)
-										result.each do |user|
-											@id=user[:id]
-
-										end
-
-
-										res=result.count
-										if res >0
-											result.each do |user|	
-
-												@@id=user[:id]
-												@username=user[:username]
-											end
-#-----------------------------------------------WELCOME--------------------------------------------##
-											alert "Welcome To Your Fusion Hub"
-											user_hub(@username,@id)
-											self.close
-											@@con=nil
-											
-
-										else
-											alert "Access Denied.. check your username or password"
-										end
-									
-									end
-
-									
-								else
-									alert "Failed to Connect to the database"
-									@@con=nil
-								end
-							end
-
-							@forget_password=button("Forget Password",left:200) do
-
-								
-									# if connect
-									if @username.text=="" 
-										alert "fill the username first "
-									else
-										passwordupdate(@username.text)
-
-									end 
-
-
-								
-
-							end
-
-
-					end		
-					end
-	end
+				end
 
 		
+
+				@user_array.each do |u|
+
+					stack do 
+						flow do 
+						 if u==""
+						 	u="NULL"
+						 	caption(u,stroke:white)
+							caption("says:",stroke:white)
+							# caption(i,stroke:white)
+						 else	
+						 	caption(u,stroke:white)
+							caption("says:",stroke:white)
+							# caption(i,stroke:white)
+						 end
+							
+						end
+					end
+				end
+				para ""
+				stack(top:0,left:120) do 
+					@ideas_array.each do |i|
+						
+						flow do 
+						   
+							if i!=""
+							 	caption(i,stroke:white)
+							else
+								i="NULL"
+							 	caption(i,stroke:white)
+							end
+							  
+						end
+
+					end
+				end
+			end	
+		end	
+# 	
+# 		#------------------------------------------LOGINPANELOPTINS------------------------------------------------
+		stack(top:300,left:400,height:200,width:400)do
+			background black(0.6)
+
+			
+
+			flow(top:10,left:20) do
+
+				image("images/username2.png",height:30,width:120)
+				# para("username",font:"Algerian",stroke:white,size:15)
+				para " "
+				@username=edit_line 
+			end
+
+			flow(top:50,left:24) do
+				image("images/password2.png",height:30,width:120)
+				para " "
+				@password=edit_line :secret=>true
+			end
+
+
+				
+		# # #--------------------------------------LOGIN FUNCTION----------------------------------------------------------
+			flow(left:0,top:100) do 
+				button("LOGIN",left:125) do
+					if connect
+					
+						if @username.text=="" or @password.text==""
+							alert "Check all the fields ...it must be filled"
+						else
+
+							sql="select id,username from community_details where username= '#{@username.text.downcase}' and password='#{@password.text.downcase}'"
+							result=@@con.query(sql)
+							result.each do |user|
+								@id=user[:id]
+
+							end
+
+
+							res=result.count
+							if res >0
+								result.each do |user|	
+
+									@@id=user[:id]
+									@username=user[:username]
+								end
+			#-----------------------------------------------WELCOME--------------------------------------------##
+								alert "Welcome To Your Fusion Hub"
+								user_hub(@username,@id)
+								self.close
+								@@con=nil
+								
+
+							else
+								alert "Access Denied.. check your username or password"
+							end
+						
+						end
+
+						
+					else
+						alert "Failed to Connect to the database"
+						@@con=nil
+					end
+				end
+
+				@forget_password=button("Forget Password",left:200) do
+
+					
+					# if connect
+					if @username.text=="" 
+						alert "fill the username first "
+					else
+						passwordupdate(@username.text)
+
+					end
+
+				end  
+			end		
+		end
+		image("images/back.png",height:30,width:100,left:10,top:650) do 
+
+
+			main_screen
+			self.close
+		end
+
+	end # window end
+end # function end
+
 end
 
-
+main_screen
 def passwordupdate(username)
+
+
 
 	window(title:"Forget Password",height:200,width:500) do
 	background black(0.6)
@@ -349,54 +356,54 @@ def start_signup
 			title("SIGNUP HERE",align:"center",font:"Algerian",stroke:"#00ffff",underline:"double",stroke:black)
 
 #------------------------------------------SIGNUPDETAILS------------------------------------------------
-		stack(top:250,left:400,height:400,width:500) do
+		stack(top:200,left:400,height:350,width:500) do
 			background black(0.6)
-			flow(top:10,left:114){
-			para("username",font:"Algerian",stroke:white,size:15)
+			flow(top:13,left:110){
+			image("images/username3.png",width:100,height:30)
 			para " "
 			@username_s=edit_line}
 
 			para " "
 
-			flow(top:50,left:120) do
-				para("password",font:"Algerian",stroke:white,size:15)
+			flow(top:50,left:110) do
+				image("images/password3.png",width:100,height:30)
 				para " "
 				@password_s=edit_line :secret=>true
 			end
 			para " "
-			flow(left:38,top:90) do 
-				para("confirm password",font:"Algerian",stroke:white,size:15)
+			flow(left:60,top:90) do 
+				image("images/confirm.png",width:150,height:32)
 				para " "
 				@confirm_password_s=edit_line :secret=>true
 			end
 
-			flow(left:157,top:130) do 
-				para("email",font:"Algerian",stroke:white,size:15)
+			flow(left:150,top:130) do 
+				image("images/email.png",width:60,height:30)
 				para " "	
 				@email=edit_line
 			end
 
-			flow(left:25,top:170) do 
-				para("HuB(Group) Name",font:"Algerian",stroke:white,size:15)
+			flow(left:70,top:170) do 
+				image("images/hubname.png",width:140,height:35)
 				para " "	
 				@name_community=edit_line 
 			end
 
-			flow(left:100,top:205) do 
+			flow(left:120,top:205) do 
 				
-				para("Login As",font:"Algerian",stroke:white,size:15)
+				image("images/loginas.png",width:100,height:30)
 				
-				para(":",font:"Algerian",stroke:white,size:15)
+				
 				para " "
 				
 				@is_admin=check;
-				para("Admin",font:"Algerian",stroke:white,size:15)
+				image("images/admin.png",width:100,height:30)
 				@is_admin.checked=false
 				
 				para "  "
 				
 				@is_member=check
-				para("Member",font:"Algerian",stroke:white,size:15)
+				image("images/member.png",width:100,height:30)
 				@is_member.checked=false
 
 			end
@@ -442,6 +449,12 @@ def start_signup
 				end
 
 			end
+		end
+		image("images/back.png",height:30,width:100,left:10,top:650) do 
+
+
+			main_screen
+			self.close
 		end
 	end
 end
