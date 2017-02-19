@@ -120,133 +120,8 @@ stack(top:500,width:150,left:0) do
 #----------------------------------------SEARCH MEMBER-----------------------------------------------------------#
 	stack(height:100,width:500,left:0,top:0) do
 			# background red
-			
-			flow do 	
-				@searchmember=edit_line("Search using",left:0,top:0)
-				@choose_option=list_box(:items=>["Person","Group","language"],choose: "language",left:200,top:0)
-				@findmember=button("Search",left:400,top:0) do
-					if @choose_option.text=="Person"
-						@choose_option="username"
-					elsif @choose_option.text=="Group"
-						@choose_option="name_community"
-
-					else 
-						@choose_option="language"
-							
-					end
-
-					if connect
-						@result=[]
-						@allid=[]
-						sql="select username,id,name_community from community_details where #{@choose_option} like('#{@searchmember.text}%') "
-						user=@@con.query(sql)
-						user.each do |u|
-
-							if @choose_option=="username"
-								
-								@result<<u[:username]
-							elsif @choose_option=="name_community"
-								@result<<u[:name_community]
-								
-							else
-								@result<<u[:language]
-							end
-							# @allid<<u[:id]
-						end
-
-						@showfindnames=stack(height:500,width:280,top:27,left:0,:scroll=>true) do 
-							background black(0.6)
-							@result.each do |names|
-
-								
-									flow do
-
-										caption(names,:stroke=>white) 
-										button("Details") do 
-											if connect
-												sql="select * from community_details where #{@choose_option}='#{names}' and is_admin=1 "
-												res=@@con.query(sql)
-												res.each do |i|
-													@name_user=i[:username]
-													 @id_map=i[:id]
-													 @id_email=i[:email]
-													 @com_name=i[:name_community]
-													
-												end
-												
-
-												 #---- the thing we are using to send this to the next stage--#
-												 
-
-												 # @communityname_name
-												 # @id_email
-												 # @id_map
-												 # @name_user
-
-								
-												 #---- the thing we are using to send this to the next stage--#
-
-
-												sql1="select * from person_details where id='#{@id_map}' "
-												result=@@con.query(sql1)
-												result.each do |t|
-													@personname=t[:person_name]
-													@quali=t[:qualification]
-													@interest=t[:interests]
-													@phoneno=t[:contact_no]
-													@exp=t[:experiance]
-													@req=t[:requirement]
-													@addres=t[:address]
-
-												end
-
-												@details_all=stack(height:300,width:400,:scroll=>true,top:28) do 
-												background black(0.6)
-												para ""
-												caption("Name: #{@name_user}",:stroke=>white)
-												caption("Email: #{@id_email}",:stroke=>white)
-												caption("Contactno: #{@phoneno}",:stroke=>white)	
-												caption("Qualification: #{@quali}",:stroke=>white)
-												caption("Experiance: #{@exp}",:stroke=>white)
-												caption("Hub Name : #{@com_name}",:stroke=>white)
-
-													button('x',height:20,width:20,top:0,right:0) do 
-														@details_all.hide
-
-
-													end
-										
-												end
-
-
-
-
-											end
-
-										end
-
-
-												
-
-
-									end
-
-									
-
-							end
-							@login_ideas=button("x",right:0,top:0,height:20,width:20) do 
-								@showfindnames.hide
-								@login_ideas.hide
-
-							end
-								
-						end
-
-					end
-
-				@searchmember.text=""
-			end
-		end 
+		start_option
+		
 	end
 #----------------------------------------MESSAGE USER-----------------------------------------------------------#
 
@@ -525,7 +400,139 @@ end
 end
 
 
+def start_option
+	flow do 	
+		@choose_option=list_box(:items=>["Person","Group","language"],choose: "Person",left:0,top:0)
+		@searchmember=edit_line("choose",left:200,top:0)
 
+		
+	
+		@findmember=button("Search",left:400,top:0) do
+			
+			if @choose_option.text=="Person"
+				@choose= "username" 
+			elsif @choose_option.text=="Group"
+				@choose= "name_community"
+			else
+				@choose="language"
+				
+			end
+
+			if connect
+				@result=[]
+				@allid=[]
+				sql="select username,id,name_community from community_details where #{@choose} like('#{@searchmember.text}%') "
+				user=@@con.query(sql)
+				user.each do |u|
+
+					if @choose=="username"
+						
+						@result<<u[:username]
+					elsif @choose=="name_community"
+						@result<<u[:name_community]
+						
+					else
+						@result<<u[:language]
+					end
+					# @allid<<u[:id]
+				end
+
+				@showfindnames=stack(height:500,width:280,top:27,left:0,:scroll=>true) do 
+					background black(0.6)
+					@result.each do |names|
+
+						
+							flow do
+
+								caption(names,:stroke=>white) 
+								button("Details") do 
+									if connect
+										sql="select * from community_details where #{@choose}='#{names}' and is_admin=1 "
+										res=@@con.query(sql)
+										res.each do |i|
+											@name_user=i[:username]
+											 @id_map=i[:id]
+											 @id_email=i[:email]
+											 @com_name=i[:name_community]
+											
+										end
+										
+
+										 #---- the thing we are using to send this to the next stage--#
+										 
+
+										 # @communityname_name
+										 # @id_email
+										 # @id_map
+										 # @name_user
+
+						
+										 #---- the thing we are using to send this to the next stage--#
+
+
+										sql1="select * from person_details where id='#{@id_map}' "
+										result=@@con.query(sql1)
+										result.each do |t|
+											@personname=t[:person_name]
+											@quali=t[:qualification]
+											@interest=t[:interests]
+											@phoneno=t[:contact_no]
+											@exp=t[:experiance]
+											@req=t[:requirement]
+											@addres=t[:address]
+
+										end
+
+										@details_all=stack(height:300,width:400,:scroll=>true,top:28) do 
+										background black(0.6)
+										para ""
+										caption("Name: #{@name_user}",:stroke=>white)
+										caption("Email: #{@id_email}",:stroke=>white)
+										caption("Contactno: #{@phoneno}",:stroke=>white)	
+										caption("Qualification: #{@quali}",:stroke=>white)
+										caption("Experiance: #{@exp}",:stroke=>white)
+										caption("Hub Name : #{@com_name}",:stroke=>white)
+
+											button('x',height:20,width:20,top:0,right:0) do 
+												@details_all.hide
+
+
+											end
+								
+										end
+
+
+
+
+									end
+
+								end
+
+
+										
+
+
+							end
+
+							
+
+					end
+					@login_ideas=button("x",right:0,top:0,height:20,width:20) do 
+						@showfindnames.hide
+						@login_ideas.hide
+
+	
+					end
+						
+				end
+
+			end
+
+
+		end
+	end 
+	
+end
 
 
 

@@ -16,7 +16,7 @@ require $path + "chattingpanel.rb"
 
 def personal_details(id)
 
-	@detail_stack=stack(left:360,top:50,margin:"black",height:550,width:400,:hidden=>true) do
+	@detail_stack=stack(left:360,top:100,margin:"black",height:550,width:400,:hidden=>true) do
 		background gray(0.6)
 		@id_user=id
 
@@ -73,9 +73,11 @@ def personal_details(id)
 				end
 
 				@submit_disapper=stack(top:520,left:120,width:150,height:30) do
-						button("update detail") do 
+						button("update detail") do
+								
 							
 								if @id_get==@id_user
+
 									if connect
 
 											if @name.text=="" or @address.text=="" or @interests.text=="" or @requirement.text=="" or @contact_no==""
@@ -147,7 +149,7 @@ end
 
 def show_details(id)
 
-	@detail_display=stack(left:360,top:50,height:650,width:400,:hidden=>true) do 
+	@detail_display=stack(left:360,top:100,height:550,width:400,:hidden=>true) do 
 		background gray(0.6)
 		@btn1=button("X",left:380,top:0,height:20,width:20) do
 
@@ -230,7 +232,7 @@ end
 def hub_details(id)
 
 
-	@hub_details=stack(left:360,top:50,height:550,width:400,:hidden=>true) do
+	@hub_details=stack(left:360,top:100,height:550,width:400,:hidden=>true) do
 		background gray(0.6)
 		button("X",top:0,left:380,height:20,width:20) do
 			@hub_details.hide

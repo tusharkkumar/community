@@ -224,6 +224,7 @@ def start_login
 					
 						if @username.text=="" or @password.text==""
 							alert "Check all the fields ...it must be filled"
+
 						else
 
 							sql="select id,username from community_details where username= '#{@username.text.downcase}' and password='#{@password.text.downcase}'"
@@ -234,6 +235,7 @@ def start_login
 							end
 
 
+
 							res=result.count
 							if res >0
 								result.each do |user|	
@@ -241,6 +243,26 @@ def start_login
 									@@id=user[:id]
 									@username=user[:username]
 								end
+
+								
+
+								sql="select id from person_details"
+								result_id= @@con.query(sql)
+								@id_new=[]
+								result_id.each do |i|
+									@id_new << i[:id]
+#
+								end
+
+
+
+								if @id_new.include?(@id)
+
+								else
+									sql ="insert into person_details(id) values(#{@id})"
+									result=@@con.query(sql)
+								end
+
 			#-----------------------------------------------WELCOME--------------------------------------------##
 								alert "Welcome To Your Fusion Hub"
 								user_hub(@username,@id)
@@ -276,8 +298,6 @@ def start_login
 			end		
 		end
 		image("images/back.png",height:30,width:100,left:10,top:650) do 
-
-
 			main_screen
 			self.close
 		end
