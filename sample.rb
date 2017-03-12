@@ -1,18 +1,6 @@
-def start
+time = Time.new
 
-	some
-
-	
+# puts "Time is #{time.hour}hours #{time.min}minutes #{time.sec}seconds"
 
 
-end
-
-
-
-def some
-	puts "hello world"
-	
-end
-
-
-start
+puts "lastseen: #{time.day}-#{time.month}-#{time.year} #{time.hour}hour #{time.min}minute"

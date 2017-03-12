@@ -33,12 +33,26 @@ def updateworking(id,working_project,language_working,member_working)
 	return runQuery(sql)	
 end
 
+def updateworking_saved(id,working_project,member_working,language_working)
+	
+	sql="insert into working_project(id,working_projects,member_no,lang) values(#{id},'#{working_project}',#{member_working},'#{language_working}')"	
+	return runQuery(sql);
+end
+
+
+
 
 def updatelive(id,live_project,language_live,member_live)
+	
 	sql="update person_details SET live_projects='#{live_project}',language_live='#{language_live}',member_live=#{member_live} where id=#{id} "
 	return runQuery(sql)
 end
 
+
+def updatelive_saved(id,live_project,member_live,language_live)
+		sql="insert into live_project(id,live_projects,member_no,lang) values(#{id},'#{live_project}',#{member_live},'#{language_live}')"	
+	return runQuery(sql);
+end
 
 def delete(id) 
 	sql="DELETE FROM person_details WHERE id=#{id}"

@@ -36,7 +36,7 @@ end
 def main_screen
 	
 
-Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false,resizable:false) do 
+	Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false,resizable:false) do 
 
 		
 		image"images/welcome3.jpg",height:800,width:1300,top:00
@@ -49,11 +49,11 @@ Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false
 
 		
 		
-#-----------------------------------------------DOWNIMAGES----------------------------------------##
-		stack(top:650,left:0) do 
+		#-----------------------------------------------DOWNIMAGES----------------------------------------##
+		downstack=stack(top:650,left:0) do 
 			# background red
 
-			flow do 
+			image_login=flow do 
 				image("images/login.png",height:35,width:90) do 
 				start_login
 				self.close
@@ -77,16 +77,12 @@ Shoes.app(title:"WELCOME TO THE FUSION HUB",height:800,width:1300,:scroll=>false
 						background black
 						image("images/contactus.png")
 					end
-				end
+			end #image_login
 
-			end
-
-
-
-		end
+		end #downstack 
+	end #shoes app end
 			
-
-end
+end # main screen
 
 
 #-----------------------------------------------LOGINFUNCTION----------------------------------------##
@@ -99,29 +95,24 @@ def start_login
 		timer(1) do 
 		image "images/logo.png",height:60,width:200,top:00,left:800
 		end
-		# background "#4169e1".."#191970"
-		# title("LOGIN HERE",align:"center",font:"Algerian",stroke:"#00ffff",underline:"double",stroke:black)
-		# title("LOGIN PANEL",width:400,left:490,top:0,stroke:black,font:"Algerian",underline:"double")
+	
 		image("images/loginpanel2.png",height:80,width:400,left:400)
 
 
-#   #--------------------------------------------ADMIN BUTTON---------------------------------------#
+		#--------------------------------------------ADMIN BUTTON---------------------------------------#
 
 
 		@admin_button=image("images/adminpanel.png",right:0,top:0,height:30,width:140)do
 				admin_panel 
 				self.close
-
-
-
 		end
 
 				
 
 
-# # #-----------------------------------------------SHARE IDEAS BUTTON----------------------------------------##
+		#-----------------------------------------------SHARE IDEAS BUTTON----------------------------------------##
 					
-		image("images/futureideas.png",left:0,height:30,width:140) do 
+		share_idea_button=image("images/futureideas.png",left:0,height:30,width:140) do 
 			if connect
 				@user_array=[]
 				@ideas_array=[]
@@ -140,7 +131,7 @@ def start_login
 				@@con=nil	
 			end
 
-# #-----------------------------------------------SHAREIDEAS----------------------------------------##
+			 #-----------------------------------------------SHAREIDEAS----------------------------------------##
 
 						
 
@@ -158,7 +149,6 @@ def start_login
 		
 
 				@user_array.each do |u|
-
 					stack do 
 						flow do 
 						 if u==""
@@ -174,8 +164,9 @@ def start_login
 							
 						end
 					end
-				end
+				end 
 				para ""
+
 				stack(top:0,left:120) do 
 					@ideas_array.each do |i|
 						
@@ -192,11 +183,11 @@ def start_login
 
 					end
 				end
-			end	
-		end	
-# 	
-# 		#------------------------------------------LOGINPANELOPTINS------------------------------------------------
-		stack(top:300,left:400,height:200,width:400)do
+			end	#share idea stack
+		end	#share_idea_button 
+
+ 			#------------------------------------------LOGINPANELOPTINS------------------------------------------------
+		login_option=stack(top:300,left:400,height:200,width:400)do
 			background black(0.6)
 
 			
@@ -204,7 +195,7 @@ def start_login
 			flow(top:10,left:20) do
 
 				image("images/username2.png",height:30,width:120)
-				# para("username",font:"Algerian",stroke:white,size:15)
+			
 				para " "
 				@username=edit_line 
 			end
@@ -217,9 +208,9 @@ def start_login
 
 
 				
-		# # #--------------------------------------LOGIN FUNCTION----------------------------------------------------------
-			flow(left:0,top:100) do 
-				button("LOGIN",left:125) do
+				 #--------------------------------------LOGIN FUNCTION----------------------------------------------------------
+			login_function=flow(left:0,top:100) do 
+				login_button=button("LOGIN",left:150) do
 					if connect
 					
 						if @username.text=="" or @password.text==""
@@ -251,7 +242,7 @@ def start_login
 								@id_new=[]
 								result_id.each do |i|
 									@id_new << i[:id]
-#
+
 								end
 
 
@@ -263,7 +254,7 @@ def start_login
 									result=@@con.query(sql)
 								end
 
-			#-----------------------------------------------WELCOME--------------------------------------------##
+								#-----------------------------------------------WELCOME--------------------------------------------##
 								alert "Welcome To Your Fusion Hub"
 								user_hub(@username,@id)
 								self.close
@@ -280,37 +271,36 @@ def start_login
 					else
 						alert "Failed to Connect to the database"
 						@@con=nil
-					end
-				end
+					end #connection_if
+				end #login_button
 
-				@forget_password=button("Forget Password",left:200) do
+				# @forget_password=button("Forget Password",left:200) do
 
 					
-					# if connect
-					if @username.text=="" 
-						alert "fill the username first "
-					else
-						passwordupdate(@username.text)
+				# 	# if connect
+				# 	if @username.text=="" 
+				# 		alert "fill the username first "
+				# 	else
+				# 		passwordupdate(@username.text)
 
-					end
+				# 	end
 
-				end  
-			end		
-		end
-		image("images/back.png",height:30,width:100,left:10,top:650) do 
-			main_screen
-			self.close
-		end
+				# end  
+			end #login_function		
+		end #login_option
+			image("images/back.png",height:30,width:100,left:10,top:650) do 
+				main_screen
+				self.close
+			end
 
 	end # window end
-end # function end
+end # fmainscreen 
 
 end
 
 main_screen
+
 def passwordupdate(username)
-
-
 
 	window(title:"Forget Password",height:200,width:500) do
 	background black(0.6)
@@ -366,17 +356,17 @@ end
 #------------------------------------------SIGNUP PANEL------------------------------------------------	
 
 def start_signup
-	window(title:"COMMUNITY SIGNUP",height:800,width:1300,resizable:false)do 
+	community_signup=window(title:"COMMUNITY SIGNUP",height:800,width:1300,resizable:false)do 
 		image "images/w1.jpg",height:800,width:1300,top:00
 		timer(1) do 
 		image "images/logo.png",height:60,width:200,top:00,left:800
 		end
 
 	
-			title("SIGNUP HERE",align:"center",font:"Algerian",stroke:"#00ffff",underline:"double",stroke:black)
+		title("SIGNUP HERE",align:"center",font:"Algerian",stroke:"#00ffff",underline:"double",stroke:black)
 
-#------------------------------------------SIGNUPDETAILS------------------------------------------------
-		stack(top:200,left:400,height:350,width:500) do
+			#------------------------------------------SIGNUPDETAILS------------------------------------------------
+		signup_details=stack(top:200,left:400,height:350,width:500) do
 			background black(0.6)
 			flow(top:13,left:110){
 			image("images/username3.png",width:100,height:30)
@@ -385,50 +375,50 @@ def start_signup
 
 			para " "
 
-			flow(top:50,left:110) do
-				image("images/password3.png",width:100,height:30)
-				para " "
-				@password_s=edit_line :secret=>true
-			end
+				flow(top:50,left:110) do
+					image("images/password3.png",width:100,height:30)
+					para " "
+					@password_s=edit_line :secret=>true
+				end
 			para " "
-			flow(left:60,top:90) do 
-				image("images/confirm.png",width:150,height:32)
-				para " "
-				@confirm_password_s=edit_line :secret=>true
-			end
+				flow(left:60,top:90) do 
+					image("images/confirm.png",width:150,height:32)
+					para " "
+					@confirm_password_s=edit_line :secret=>true
+				end
 
-			flow(left:150,top:130) do 
-				image("images/email.png",width:60,height:30)
-				para " "	
-				@email=edit_line
-			end
+				flow(left:150,top:130) do 
+					image("images/email.png",width:60,height:30)
+					para " "	
+					@email=edit_line
+				end
 
-			flow(left:70,top:170) do 
-				image("images/hubname.png",width:140,height:35)
-				para " "	
-				@name_community=edit_line 
-			end
+				flow(left:70,top:170) do 
+					image("images/hubname.png",width:140,height:35)
+					para " "	
+					@name_community=edit_line 
+				end
 
-			flow(left:120,top:205) do 
-				
-				image("images/loginas.png",width:100,height:30)
-				
-				
-				para " "
-				
-				@is_admin=check;
-				image("images/admin.png",width:100,height:30)
-				@is_admin.checked=false
-				
-				para "  "
-				
-				@is_member=check
-				image("images/member.png",width:100,height:30)
-				@is_member.checked=false
+				flow(left:120,top:205) do 
+					
+					image("images/loginas.png",width:100,height:30)
+					
+					
+					para " "
+					
+					@is_admin=check;
+					image("images/admin.png",width:100,height:30)
+					@is_admin.checked=false
+					
+					para "  "
+					
+					@is_member=check
+					image("images/member.png",width:100,height:30)
+					@is_member.checked=false
 
-			end
+				end
 
-			flow(left:20,top:250) do 
+			sign_up=flow(left:20,top:250) do 
 				button("Sign Up",left:200,align:"center") do
 				 	if connect
 				 		usernames=[]
@@ -468,16 +458,16 @@ def start_signup
 					self.close
 				end
 
+			end #sign_up
+		end #signup_details
+			image("images/back.png",height:30,width:100,left:10,top:650) do 
+
+
+				main_screen
+				self.close
 			end
-		end
-		image("images/back.png",height:30,width:100,left:10,top:650) do 
-
-
-			main_screen
-			self.close
-		end
-	end
-end
+	end #community_signup
+end #start_signup
 #------------------------------------------SIGNUP VALIDATION------------------------------------------------
 
 def signup_validation
@@ -518,7 +508,7 @@ def signup_validation
 	
 end
 
-# #------------------------------------------SIGNUP INSERT DETAILS------------------------------------------------
+#------------------------------------------SIGNUP INSERT DETAILS------------------------------------------------
 
 def insert_details
 			res=insert(@username_s.text,@password_s.text,@email.text,@name_community.text,@is_admin,@is_member)
@@ -530,41 +520,11 @@ def insert_details
 			@is_admin=""
 			@is_member=""
 			@confirm_password_s.text=""
-			# @@con=nil		
-
-	# else alert "User with this Username exists try another name"
-
-	# end		
-		# alert "done now you can apply"	
-		
-
-
 
 end
 
-# #------------------------------------------AMIMATION AREA------------------------------------------------
-
-# # def ball_animationP
-
-# # 	fill "#FFDAB9"
-# #   @gravity = 0.05
-# #   @velocity =10.0
-# #   @ball_radius = 60
-# #   @ball = oval(top: 10, 
-# #               left: width / 4 - @ball_radius, 
-# #               radius: @ball_radius)
-# #     animate(60) do
-# #       @velocity += @gravity
-# #       @ball.top += @velocity 
-# #       if @ball.top > height - @ball_radius * 2
-# #         @ball.top = height - @ball_radius * 2
-# #         @velocity = @velocity * -0.8
-# #       end
-# #     end
-		
-# # end
-
-# #---------------------------------------------ADMIN PANEL -------------------------------#
+	
+	#---------------------------------------------ADMIN PANEL -------------------------------#
 
 
 def admin_panel
@@ -688,6 +648,7 @@ def admin_panel
 	else
 
 		alert "You are not a Authorise Person.."
+		start_login
 
 	end
 

@@ -21,8 +21,8 @@ def personal_details(id)
 		@id_user=id
 
 		flow do 
-			para("Close",left:336,top:0,stroke:red)
-			btn=button("X",left:380,height:20,width:20)do 
+
+			btn=button("X",right:0,height:20,width:22)do 
 				@detail_stack.hide 
 			end
 		end
@@ -151,12 +151,12 @@ def show_details(id)
 
 	@detail_display=stack(left:360,top:100,height:550,width:400,:hidden=>true) do 
 		background gray(0.6)
-		@btn1=button("X",left:380,top:0,height:20,width:20) do
+		@btn1=button("X",right:0,top:0,height:20,width:22) do
 
 			@detail_display.hide
 
 		end	
-		para("Close",left:335,top:0,stroke:red)
+
 
 
 			if connect
@@ -199,7 +199,7 @@ def show_details(id)
 			user_exp=@userExperiance
 			user_interest=@userInterests
 			user_req=@userRequirement
-#----------------------------------------------PDF BUTTTON ---------------------------#
+				#----------------------------------------------PDF BUTTTON ---------------------------#
 		@pdfgenerate=button("Generate Pdf",top:0,right:150) do 
 				Prawn::Document.generate("#{user_name}.pdf") do 
 					text "USERNAME :#{user_name} "
@@ -221,7 +221,6 @@ def show_details(id)
 
 			end
 	
-
 	end
 end
 
@@ -234,11 +233,11 @@ def hub_details(id)
 
 	@hub_details=stack(left:360,top:100,height:550,width:400,:hidden=>true) do
 		background gray(0.6)
-		button("X",top:0,left:380,height:20,width:20) do
+		button("X",top:0,right:0,height:20,width:22) do
 			@hub_details.hide
 		end	
 
-		para("Close",left:335,top:0,stroke:red)
+
 		para ""
 		
 		if connect
@@ -257,7 +256,7 @@ def hub_details(id)
 			sql="select * from community_details where id=#{@id_user}"
 			@result_timing=@@con.query(sql)
 			@result_timing.each do |user|
-				# @name_community=user[:name_community]
+				@name_community=user[:name_community]
 				@is_created=user[:is_created]
 				@is_modified=user[:is_modified]		
 			end
@@ -265,24 +264,33 @@ def hub_details(id)
 			stack do 
 
 				flow do 
-					caption("Hub Created by :")
+					caption("Hub Created at :")
+					@is_created ="#{@is_created.day}-#{@is_created.month}-#{@is_created.year} #{@is_created.hour}:#{@is_created.min}:#{@is_created.sec}"
 					caption @is_created
 				end
 				para ""
 				flow do 
 					caption("Last Seen:")
+					@last_seen ="#{@last_seen.day}-#{@last_seen.month}-#{@last_seen.year} #{@last_seen.hour}:#{@last_seen.min}:#{@last_seen.sec}"
 					caption @last_seen
 					end
 				para ""
 				flow do 
 
 				caption("Modified time:")
+				@is_modified ="#{@is_modified.day}-#{@is_modified.month}-#{@is_modified.year} #{@is_modified.hour}:#{@is_modified.min}:#{@is_modified.sec}"
 				caption @is_modified
 				end
 				para ""
 				flow do 
 					caption("Working Project:")
 					caption @workingproject
+
+
+					button("ADD",right:0) do 
+						my_projects(@id_user)
+						@hub_details.hide
+					end
 					
 				end
 
@@ -290,8 +298,66 @@ def hub_details(id)
 				flow do 
 					caption("Live Projects:")
 					caption @liveproject
+
+					button("ADD",right:0) do
+						my_projects(@id_user)
+						@hub_details.hide
+					end
 				end
 				para ""
+
+		
+
+				flow do 
+					caption("Add Language")
+					caption @liveproject
+					para("*",stroke:red)
+					
+
+					button("ADD",right:0) do
+						@add_lang.show
+
+					end
+					
+				end
+
+				@add_lang=flow(:hidden=>true,height:100,width:400) do 
+					stack do 
+						flow do
+							para("*",stroke:red)
+							para("Important to be filled",stroke:red)
+						end
+
+						flow do 
+							@choose_option=edit_line(stroke:white)
+							if @choose_option.text==" "
+								alert("Language can't be empty")
+							else
+								if connect
+									
+								end
+								
+							end
+							para(" ")
+							button("submit") do
+
+								@add_lang.hide
+								@hub_details.hide
+
+
+							end
+						end
+
+					end
+
+					
+
+				end
+
+
+
+
+
 			end
 			@@con=nil
 		else

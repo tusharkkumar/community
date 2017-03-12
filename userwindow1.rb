@@ -6,9 +6,7 @@ require "loginpanel.rb"
 require $path_forw + "person_details.rb"
 require $path_forw + "quara.rb"
 require $path_forw + "features.rb"
-
 require $path_forw + "chattingpanel.rb"
-
 
 #-----------------------------------PROFILE PAGE OF USER------------------------------------------------
 
@@ -18,14 +16,44 @@ require $path_forw + "chattingpanel.rb"
 def user_hub(username,id)
 
 window(title:"HUB",height:800,width:1300,resizable:false) do 
+	# if confim("Please First Fill the Details and Add language below")
+	# alert(@make)
+
+	#------for quara--------
+
+	if connect
+		
+		@quara_ids=[]
+		sql="select id from quara"
+		@result=@@con.query(sql)
+
+		@result.each do |i|	
+			@quara_ids << i[:id]
+		end
+		
+
+		if @quara_ids.include?(id)
+
+		else
+			sql= "insert into quara(id,user) values(#{id},'#{username}')"
+			@result=@@con.query(sql)
+
+				
+		end
+
+	end
+	
+
+
 	image("images/w1.jpg",height:800,width:1300)
 	stack(left:0,height:50,width:1300,top:0)do 
 
 		@id_user=id
 		@user_name=username
-		caption("Welcome #{username}",left:550,underline:"double")
+		caption("WELCOME #{username.upcase}",left:550,underline:"double")
+
 	end
-#---------------------------------------- -----------------------------------------------------------#
+			#---------------------------------------- -----------------------------------------------------------#
 	@skip=stack(top:200,right:4,height:45,width:150) do 
 		
 		if connect
@@ -51,7 +79,7 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 	end
 
 
-		button("Notifications",right:10,top:205) do 
+			@notify=button("Notifications",right:10,top:205) do 
 			@skip.hide
 			@send_user=[]
 			if connect
@@ -72,23 +100,23 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 				
 			end
 
-		end
-
-#----------------------------------------chatting panel-----------------------------------------------------------#
-
-	stack(height:50,width:150,top:100,right:5) do 
-		# background red
-
-
-		button("Chatting Panel",right:0) do 
-			chattingpanel
-
-
-		end
-
-
+	
 	end
-#------------------------------------------REFRESH BUTTON------------------------------------------------
+				#----------------------------------------chatting panel(future modification)-----------------------------------------------------------#
+
+	# stack(height:50,width:150,top:100,right:5) do 
+	# 	# background red
+
+
+	# 	button("Chatting Panel",right:0) do 
+	# 		chattingpanel
+
+
+	# 	end
+
+
+	# end
+				#------------------------------------------REFRESH BUTTON------------------------------------------------
 
 	@refresh_button=button("Refresh",top:0,right:330) do 
 		user_hub(username,id)
@@ -99,7 +127,7 @@ window(title:"HUB",height:800,width:1300,resizable:false) do
 	
 
 
-#----------------------------------------SEARCH MEMBER-----------------------------------------------------------#
+				#----------------------------------------SEARCH MEMBER-----------------------------------------------------------#
 
 
 stack(top:500,width:150,left:0) do 
@@ -109,24 +137,24 @@ stack(top:500,width:150,left:0) do
 			member_list
 		end 
 		button("SEND MESSAGE",width:150) do
-			send_message(username,id)
 			
+			send_message(username,id)
 		end
 	end
   
 
 
 
-#----------------------------------------SEARCH MEMBER-----------------------------------------------------------#
+						#----------------------------------------SEARCH MEMBER-----------------------------------------------------------#
 	stack(height:100,width:500,left:0,top:0) do
 			# background red
 		start_option
 		
 	end
-#----------------------------------------MESSAGE USER-----------------------------------------------------------#
+						#----------------------------------------MESSAGE USER-----------------------------------------------------------#
 
 
-#----------------------------------------ADD MEMBER-----------------------------------------------------------#
+						#----------------------------------------ADD MEMBER-----------------------------------------------------------#
 
 	stack(right:0,top:150,height:50,width:150) do
 		# background red
@@ -162,10 +190,12 @@ stack(top:500,width:150,left:0) do
 	end
 
 
-#------------------------------------------COMPLAINT BOX OPTION------------------------------------------------
+					#------------------------------------------COMPLAINT BOX OPTION------------------------------------------------
 
 	@complaint_boxbutton=button("complaint",top:0,right:78) do 
 		@complaint_box.show
+		@notify.hide
+	
 	end
 
 	@complaint_box=stack(top:30,left:830,height:250,width:470,:hidden=>true) do
@@ -173,6 +203,8 @@ stack(top:500,width:150,left:0) do
 
 		button("close",right:0,top:0,height:30,width:50) do 
 			@complaint_box.hide
+			@notify.show
+	
 		end
 		caption("LIST COMPLAINT",stroke:white)
 
@@ -203,7 +235,7 @@ stack(top:500,width:150,left:0) do
 
 
 	end
-#------------------------------------------PASSWORD CHANGE OPTION------------------------------------------------
+				#------------------------------------------PASSWORD CHANGE OPTION------------------------------------------------
 	@logout_button=button("Change Password",top:0,right:180) do
 						# alert @id_user
 						@enterthenewpassword=ask("Enter The New Password:")
@@ -249,9 +281,8 @@ stack(top:500,width:150,left:0) do
 
 					end	
 
-
-
-#------------------------------------------LOGOUT OPTION------------------------------------------------
+				
+					#------------------------------------------LOGOUT OPTION------------------------------------------------
 
 
 	stack(left:1220,top:0) do 
@@ -262,12 +293,18 @@ stack(top:500,width:150,left:0) do
 					sql="update person_details set last_seen=NOW() where id=#{@id_user}"
 					@@con.query(sql)
 					alert "logout successful"
+
+
 					# alert "last seen saved"
 					@@con=""
 				end
 
 				start_login
+
 				self.close
+				@my_project_window.close
+				@my_skill.close
+				@notification.close
 
 			end
 
@@ -275,10 +312,10 @@ stack(top:500,width:150,left:0) do
 	end
 
 
-#-----------------------------------------PROFILE PICTURE STACK ------------------------------------------------
+		#-----------------------------------------PROFILE PICTURE STACK ------------------------------------------------
 
 		 
-#------------------------------------------OUES AND ANSWERS OPTION------------------------------------------------
+		#------------------------------------------OUES AND ANSWERS OPTION------------------------------------------------
 
 	stack(left:830,top:350,height:400,width:470) do 
 		# background green
@@ -309,7 +346,6 @@ stack(top:500,width:150,left:0) do
 		end
 	end
 
-	
 
 	stack(width:150,left:0,top:350) do 
 		# background pink
@@ -332,7 +368,7 @@ stack(top:500,width:150,left:0) do
 
 	@detail_show=stack(left:170,top:100,width:260,height:210) do
 		stack do 
-			button("FILL YOUR PERSONAL DETAILS",width:200) do 
+			button("FILL YOUR PERSONAL DETAILS",width:220) do 
 			personal_details(@id_user)
 			@detail_stack.show
 			@detail_display.hide
@@ -346,12 +382,17 @@ stack(top:500,width:150,left:0) do
 				@hub_details.hide
 			end
 #------------------------------------------GROUP RELATED OPTION------------------------------------------------
-			button("HUB DETAILS",width:100) do
-				hub_details(@id_user)
-				@hub_details.show
-				@detail_stack.hide
-				@detail_display.hide
+			flow do 
+					button("HUB DETAILS",width:100) do
+						hub_details(@id_user)
+						@hub_details.show
+						@detail_stack.hide
+						@detail_display.hide
+					end
+
+					para("*",stroke:red)
 			end
+
 			
 		end
 	end
@@ -397,6 +438,7 @@ stack(top:500,width:150,left:0) do
 
 	end
 end
+
 end
 
 
@@ -415,7 +457,6 @@ def start_option
 				@choose= "name_community"
 			else
 				@choose="language"
-				
 			end
 
 			if connect
@@ -540,12 +581,12 @@ end
 #------------------------------------------MY PROJECTS FUNCTIONING OPTION------------------------------------------------
 
 	def my_projects(id)
-		window(height:500,width:800,resizable:false) do 
+		@my_project_window=window(title:"Project Area",height:500,width:800,resizable:false) do 
 			# background white
 			@btn_stack=stack(top:0,left:0,height:100,width:800)do 	
 			# background pink
-				caption("Click Add button to add a project >>",left:10,top:70)
-				button("ADD PROJECT",left:350,top:70) do 
+				caption("Click Add button to add a project >>",stroke:white,left:10,top:70)
+				button("ADD PROJECT",left:350,top:70,stroke:white) do 
 					
 					@line_stack.show
 					@button_stack.show
@@ -553,17 +594,17 @@ end
 			end
 			@line_stack=stack(top:100,left:0,height:100,width:800,:hidden=>true)do 
 			# background yellow
-				line(100, 150, 400, 0)
-				line(850, 250, 400, 0)
+				line(100, 150, 400, 0,stroke:white)
+				line(850, 250, 400, 0,stroke:white)
 			end
 			@button_stack=stack(top:200,left:0,height:30,width:800,:hidden=>true) do 
 				# background red
 				flow do 
-					button("WORKING PROJECT",left:100) do 
+					button("WORKING PROJECT",left:100,stroke:white) do 
 						@working_prodetail.show
 						@live_prodetail.hide
 					end	
-						button("LIVE PROJECT",left:520) do 
+						button("LIVE PROJECT",left:520,stroke:white) do 
 
 						@live_prodetail.show
 						@working_prodetail.hide
@@ -575,29 +616,32 @@ end
 				# background lightblue
 				stack(top:60) do 
 					flow do
-					caption("Project Name:",left:37)
+					caption("Project Name:",left:37,stroke:white)
 					@workproject_name=edit_line(left:164)
 					end
 
 					flow do
-					caption("Language:",left:70)
+					caption("Language:",left:70,stroke:white)
 					@workproject_lang=edit_line(left:164)
 					end
 
 					flow do
-					caption("Members Involved:")
+					caption("Members Involved:",stroke:white)
 					@workproject_members=edit_line
 					end
 
-					button("Submit",left:165,top:130) do 
+					button("Submit",left:165,top:130,stroke:white) do 
 
 						if connect
+							array=[1,2,4,6,7,8,9,10]
 							if @workproject_name.text=="" or @workproject_lang.text=="" or @workproject_members.text==""
 								alert "All Fields Must Be Filled"
+							
 
 							else
 
 								result=updateworking(id,@workproject_name.text,@workproject_lang.text,@workproject_members.text)
+								result2=updateworking_saved(id,@workproject_name.text,@workproject_members.text,@workproject_lang.text);
 								alert "data gets Saved..."
 								@@con=nil
 								@working_prodetail.hide
@@ -612,17 +656,17 @@ end
 				# background green
 				stack(top:60) do 
 					flow do
-					caption("Project Name:",left:37)
+					caption("Project Name:",left:37,stroke:white)
 					@liveproject_name=edit_line(left:164)
 					end
 
 					flow do
-					caption("Language:",left:70)
+					caption("Language:",left:70,stroke:white)
 					@liveproject_lang=edit_line(left:164)
 					end
 
 					flow do
-					caption("Members Involved:")
+					caption("Members Involved:",stroke:white)
 					@liveproject_members=edit_line
 					end
 
@@ -633,7 +677,9 @@ end
 								alert "All Fields Must Be Filled"
 							else
 
-							result=updatelive(id,@liveproject_name.text,@liveproject_lang.text,@liveproject_members.text)
+								result=updatelive(id,@liveproject_name.text,@liveproject_lang.text,@liveproject_members.text)
+								result2=updatelive_saved(id,@liveproject_name.text,@liveproject_members.text,@liveproject_lang.text)
+							
 							alert "data Saved.."
 							@@con=nil
 							@live_prodetail.hide
@@ -649,11 +695,11 @@ end
 #------------------------------------------MY SKILLS FUNCTIONING OPTION------------------------------------------------
 
 	def my_skills(id)
-		window(height:500,width:800,resizable:false) do
+		@my_skill=window(title:"My Skills",height:500,width:800,resizable:false) do
 			stack() do
 
 				flow do 
-					caption("Click to Add Skills >>")
+					caption("Click to Add Skills >>",stroke:white)
 					button("ADD Your Skills") do 
 						@skill.show
 						@skill_fields.show
@@ -661,31 +707,31 @@ end
 				end
 
 				@skill=flow(:hidden=>true) do 
-					caption("Skills:")
+					caption("Skills:",stroke:white)
 				end
 
 				@skill_fields=stack(:hidden=>true) do 
 					flow do 
-					para "1"
+					para "1",stroke:white
 					@l1=edit_line
 					end
 					flow do 
-					para "2"
+					para "2",stroke:white
 					@l2=edit_line
 					end
 					flow do 
-					para "3"	
+					para "3",stroke:white	
 					@l3=edit_line
 					end
 					flow do 
-					para "4"
+					para "4",stroke:white
 					@l4=edit_line
 					end
 					flow do 
-					para "5"
+					para "5",stroke:white
 					@l5=edit_line
 					end
-					@btn5_submit=button("Submit",left:0,top:165) do
+					@btn5_submit=button("Submit",left:0,top:165,stroke:white) do
 						if connect 
 							if @l1.text=="" or @l2.text=="" or @l3.text=="" or @l4.text=="" or @l5.text=="" 
 								alert "please fill atleast 5 technical skills "

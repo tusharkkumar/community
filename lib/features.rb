@@ -66,7 +66,7 @@ end
 
 def send_message(username,id)
 	# alert "working fine"
-	window() do
+	window(title:"Send Message") do
 		background black(0.6)
 		stack(height:100,width:300,left:0,top:0) do
 			# background red
@@ -184,10 +184,10 @@ end
 
 def notification_funtion(usersends,username,userloginid)
 
-	window(:title=>'Messages',height:600,width:700) do 
+	@notification=window(:title=>'Messages',height:600,width:700) do 
 	background black(0.6)
 
-	caption("All Messages:",top:10)
+	caption("All Messages:",top:10,stroke:white)
 	stack(height:700,width:200,left:0,:scroll=>true,top:40) do 
 
 		usersends.each do |u|
@@ -201,7 +201,7 @@ def notification_funtion(usersends,username,userloginid)
 						end
 
 		# background red
-						caption("#{u}:",left:10)
+						caption("#{u}:",left:5,stroke:white)
 
 						stack(width:500,height:200,top:20) do 
 							if connect
